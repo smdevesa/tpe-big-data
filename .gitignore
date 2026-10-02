@@ -1,3 +1,7 @@
+# ============================================================
+#  tpe-big-data · .gitignore
+# ============================================================
+
 # ---------- Python / entornos virtuales ----------
 .venv/
 venv/
@@ -13,6 +17,7 @@ htmlcov/
 .ipynb_checkpoints/
 
 # ---------- Credenciales y secretos (AstraDB / Cassandra) ----------
+# NUNCA versionar tokens ni el Secure Connect Bundle.
 .env
 .env.*
 !.env.example
@@ -22,6 +27,8 @@ astra*.json
 credentials*.json
 
 # ---------- Salidas generadas del pipeline (Spark) ----------
+# datalake/landing/ SÍ se versiona (datos crudos provistos, inmutables).
+# Las zonas derivadas se regeneran ejecutando el pipeline.
 datalake/bronze/
 datalake/silver/
 datalake/gold/
@@ -36,6 +43,7 @@ derby.log
 .ivy2/
 
 # ---------- Build de documentos (Markdown -> PDF) ----------
+# Todo lo que genera el build. El PDF se reconstruye desde el Markdown (ver tools/docs/README.md).
 docs/build/
 *.build.typ
 
@@ -51,3 +59,6 @@ desktop.ini
 !.vscode/settings.json
 *.swp
 *~
+
+# Notebooks: borradores personales
+notebooks/scratch/

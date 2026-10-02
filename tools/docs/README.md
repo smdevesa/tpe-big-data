@@ -16,7 +16,6 @@ docs/entrega1/                 ← contenido (lo que se edita)
 
 tools/docs/                    ← herramientas de build (no se edita para escribir el informe)
 ├── build_pdf.py               ← el script
-├── requirements.txt           ← dependencias (pypandoc_binary, typst)
 ├── pdf.yaml                   ← opciones: idioma, papel, márgenes, fuente
 ├── pdf-style.typ              ← estilo del PDF (colores, títulos, tablas, links)
 ├── fonts/                     ← fuente Inter incluida en el repo (licencia OFL)
@@ -34,7 +33,7 @@ Requiere **Python 3.10 o superior**. Desde la raíz del repo:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r tools\docs\requirements.txt
+pip install -r requirements.txt
 ```
 
 Si PowerShell bloquea `Activate.ps1` ("la ejecución de scripts está deshabilitada"), no hace falta activar nada:
@@ -45,7 +44,7 @@ usá siempre `.\.venv\Scripts\python` en lugar de `python`.
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate          # en Git Bash: source .venv/Scripts/activate
-pip install -r tools/docs/requirements.txt
+pip install -r requirements.txt
 ```
 
 Para comprobar que quedó bien:
@@ -112,14 +111,14 @@ git push -u origin entrega1/seccion-roles   # abrir PR y que lo revise el otro
 - Después del feedback, los cambios van en commits aparte (por ejemplo prefijo `fix(feedback):`), porque la consigna pide marcarlos como correcciones derivadas del feedback.
 - `.gitignore` excluye `.venv/` y `docs/build/`: el PDF no se versiona porque se reconstruye desde el Markdown. Lo que queda fijado en Git (y en el tag) es la fuente.
 - Antes de entregar, generen el PDF desde el commit etiquetado (`git checkout entrega1`, build) y suban ese archivo, para que PDF y repo coincidan.
-- Cada persona crea su propio `.venv`; `tools/docs/requirements.txt` es lo único que se comparte.
+- Cada persona crea su propio `.venv`; `requirements.txt` (en la raíz) es lo único que se comparte.
 
 ## 5. Problemas frecuentes
 
 | Síntoma | Causa y solución |
 |---|---|
-| `Faltan dependencias…` | El venv no está activado o no se instaló. Activalo y corré `pip install -r tools/docs/requirements.txt`. |
-| `No module named …` pese a haber instalado | `pip` y `python` son de distintos entornos. Usá `python -m pip install -r tools/docs/requirements.txt`. |
+| `Faltan dependencias…` | El venv no está activado o no se instaló. Activalo y corré `pip install -r requirements.txt`. |
+| `No module named …` pese a haber instalado | `pip` y `python` son de distintos entornos. Usá `python -m pip install -r requirements.txt`. |
 | `SyntaxError` en `build_pdf.py` (en la línea `str \| None`) | Python menor a 3.10. Instalá una versión más nueva y recreá el venv. |
 | Error de Typst tipo `unknown variable`, `unexpected argument` | El pandoc incluido genera sintaxis más nueva que la del compilador Typst. Actualizá: `pip install -U typst pypandoc_binary`. |
 | `file not found … img/…png` | La ruta de la imagen en el Markdown es incorrecta (relativa a `docs/entrega1/`, y en Linux/macOS distingue mayúsculas). |

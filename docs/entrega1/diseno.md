@@ -27,7 +27,7 @@ Diego Mosquera Uzcaregui
 
 El proveedor de nube dispone de datos de clientes, recursos, facturación, soporte y eventos de uso. Estas fuentes tienen distintas estructuras y frecuencias de actualización: los eventos de consumo requieren seguimiento cercano al tiempo real, mientras que los datos maestros y la facturación se procesan de forma diaria o mensual.
 
-Los datos también presentan nulos, tipos ambiguos, valores atípicos y cambios de esquema. Estas condiciones dificultan su integración y pueden afectar la confiabilidad de los indicadores.
+Los datos también presentan nulos, tipos ambiguos, valores inconsistentes y cambios de esquema. Estas condiciones dificultan su integración y pueden afectar la confiabilidad de los indicadores.
 
 Se propone diseñar una solución que integre estas fuentes y permita consultar información consistente sobre costos, uso de servicios y atención al cliente. En esta primera entrega se define la arquitectura y se realiza una exploración inicial de los datos.
 
@@ -35,21 +35,22 @@ Se propone diseñar una solución que integre estas fuentes y permita consultar 
 
 | Usuarios | Preguntas que necesitan responder |
 |---|---|
-| FinOps | ¿Cuál es el costo diario por organización y servicio? ¿Qué servicios acumulan más costo en los últimos 14 días? ¿Cuál es la facturación mensual considerando créditos, impuestos y conversión a USD? |
+| FinOps | ¿Cuál es el costo y la cantidad de requests diarios por organización y servicio? ¿Qué costos son anómalos? ¿Qué servicios acumulan más costo en los últimos 14 días? ¿Cuál es la facturación mensual considerando créditos, impuestos y conversión a USD? |
 | Soporte | ¿Cómo evoluciona la cantidad de tickets críticos? ¿Qué proporción incumple el SLA? ¿Cuál es la satisfacción promedio de los clientes atendidos? |
-| Producto / Usage | ¿Cómo varía el uso de cada servicio? ¿Cuántos tokens de GenAI se consumen por día y organización? ¿Qué métricas de carbono están disponibles? |
+| Producto / Usage | ¿Cómo varía el uso de cada servicio? ¿Cuántos tokens de GenAI se consumen por día y organización, y a qué costo estimado? ¿Qué métricas de carbono están disponibles? |
 
 ### Objetivos y criterios de éxito
 
 | Objetivo | Criterio medible propuesto |
 |---|---|
 | Integrar las fuentes del caso | Contemplar las ocho fuentes provistas en el diseño, identificando su destino y su modalidad de ingesta. |
-| Permitir el análisis de costos y consumo | Obtener indicadores diarios por organización y servicio, y un ranking de servicios por costo acumulado en períodos de 14 días. |
+| Permitir el análisis de costos y consumo | Obtener costos y requests diarios por organización y servicio, y un ranking de servicios por costo acumulado en períodos de 14 días. |
 | Permitir el seguimiento de soporte | Obtener conteos diarios de tickets por organización y severidad, tasa de incumplimiento de SLA y CSAT promedio de las respuestas disponibles. |
+| Detectar anomalías de costo | Marcar con un flag o score los costos atípicos por organización, fecha y servicio con un método justificado (z-score robusto o percentiles), conservando el dato original. |
 | Incorporar las métricas de Producto | Obtener tokens de GenAI diarios por organización y métricas de carbono cuando los campos estén presentes, distinguiendo ausencia de dato de valor cero. |
 | Mantener la trazabilidad y controlar la calidad | Diseñar mecanismos para identificar el archivo de origen y la fecha de ingesta de cada registro, y contabilizar los registros que incumplan las reglas de calidad. |
 
-Los indicadores se implementaron y validarán en las siguientes etapas. En esta primera entrega se evaluará que el diseño explique qué datos y componentes permitirán obtenerlos. La latencia objetivo del procesamiento cercano al tiempo real queda pendiente de definir y validar mediante pruebas.
+Los indicadores se implementarán y validarán en las siguientes etapas. En esta primera entrega se evaluará que el diseño explique qué datos y componentes permitirán obtenerlos. La latencia objetivo del procesamiento cercano al tiempo real queda pendiente de definir y validar mediante pruebas.
 
 ## 2. Justificación de la necesidad de Big Data
 
@@ -59,7 +60,7 @@ El dataset provisto permite simular este escenario. Su tamaño, por sí solo, no
 
 | Dimensión | Aplicación al caso | Implicación para el diseño |
 |---|---|---|
-| **Volumen** | Los eventos se acumulan a medida que aumentan los clientes, los recursos y el tiempo de operación. | Prever almacenamiento y procesamiento que puedan crecer, utilizando Parquet y particiones que permitan consultar solo los datos necesarios. |
+| **Volumen** | El dataset provisto contiene 43.200 eventos (≈13 MB) en 60 días; en producción se acumulan a medida que aumentan los clientes, los recursos y el tiempo de operación. | Prever almacenamiento y procesamiento que puedan crecer, utilizando Parquet y particiones que permitan consultar solo los datos necesarios. |
 | **Velocidad** | El seguimiento operativo de uso y costos requiere actualizaciones cercanas al tiempo real. Los maestros y la facturación tienen ciclos diarios o mensuales. | Combinar streaming para eventos con procesamiento batch para las demás fuentes. |
 | **Variedad** | Se reciben archivos CSV de distintas áreas y eventos JSONL. Además, la segunda versión de los eventos incorpora nuevos campos. | Definir esquemas por fuente y compatibilizar sus estructuras antes de construir indicadores comunes. |
 | **Veracidad** | Existen nulos, números representados como texto, costos negativos y valores atípicos que requieren interpretación. | Conservar los originales y establecer controles de calidad, reglas de tratamiento y trazabilidad. |
@@ -70,6 +71,8 @@ La arquitectura debe responder tanto al crecimiento de los datos como a la neces
 ## 3. Inventario y calidad inicial
 
 [Link al Colab](https://colab.research.google.com/drive/1as-zul5f7WTrQ2JBLxVz6qLNNwRzgz8C)
+
+La exploración se replica con pandas en los notebooks del repositorio: `notebooks/01_exploracion_maestros.ipynb` y `notebooks/02_exploracion_eventos.ipynb`, con salidas guardadas.
 
 Se realizó una exploración en Google Colab con PySpark para revisar la estructura, la cantidad de registros, los valores nulos y los duplicados de las fuentes. Los archivos originales no fueron modificados.
 
@@ -84,7 +87,7 @@ Se realizó una exploración en Google Colab con PySpark para revisar la estruct
 | `billing_monthly.csv` | 240 | Factura; `invoice_id` |
 | `usage_events_stream/*.jsonl` | 43.200 | Evento de una métrica de uso; `event_id`. Distribuidos en 120 archivos |
 
-No se observaron duplicados en las claves revisadas. Este resultado corresponde al dataset provisto y no garantiza la unicidad en futuras ingestas. El campo `org_id` permite relacionar las fuentes con las organizaciones, mientras que `resource_id` vincula los eventos con los recursos. La exploración realizada no verifica todavía la integridad de todas estas relaciones.
+No se observaron duplicados en las claves revisadas. Este resultado corresponde al dataset provisto y no garantiza la unicidad en futuras ingestas. El campo `org_id` permite relacionar las fuentes con las organizaciones, mientras que `resource_id` vincula los eventos con los recursos. La integridad referencial entre fuentes (`org_id`, `resource_id`) fue verificada en los notebooks de exploración sobre el dataset provisto.
 
 Se propone una ingesta batch diaria para clientes, usuarios, recursos, soporte, marketing y encuestas, y mensual para facturación. Estas frecuencias son decisiones de diseño: no pueden inferirse de los archivos estáticos del ZIP. Los eventos JSONL se utilizarán para simular una ingesta en micro-lotes.
 
@@ -101,7 +104,16 @@ Las fuentes combinan identificadores, categorías, fechas, booleanos e importes.
 | 19 encuestas sin `nps_score` y 10 sin `comment` | Diferenciar la ausencia de puntuación de la falta de comentario |
 | 137 facturas sin `credits` | Acordar el significado del campo vacío antes de reemplazarlo por cero |
 | 877 eventos sin `value` y 2.075 sin `unit` | Definir validaciones según la métrica y cómo tratar los registros incompletos |
-| 216 eventos con costo negativo | Marcar los casos y determinar si representan ajustes válidos o errores |
+| 216 eventos con costo negativo (211 por debajo de −0,01) | Marcar los casos y determinar si representan ajustes válidos o errores |
+| 2.038 eventos con `unit` nulo pero con `value` | Inferir la unidad según servicio y métrica o marcar el registro |
+| 1.309 `value` informados como texto, convertibles a número | Normalizar tipos en Silver y cuarentenar los no convertibles |
+| 7.371 eventos con fecha anterior a la creación de su recurso | Definir si se rechazan o se conservan con un flag |
+| Cada archivo del stream abarca ≈60 días de eventos | El orden de llegada no coincide con el de evento: el watermark no sirve para descartar datos; se usará upsert idempotente |
+| 13 subtotales de factura negativos | Definir si son notas de crédito o errores |
+| Tipo de cambio a USD distinto de 1 en 160 facturas; montos en ARS similares a los de USD | Verificar la moneda y la conversión antes de calcular ingresos |
+| 172 tickets con `csat` sin `resolved_at` | Revisar la regla de coherencia entre ambos campos |
+| `csat` con valores 0–7 y `nps_score` negativos | Escala no documentada: acordar el rango válido |
+| 232 usuarios con `last_login` anterior a `created_at` | Regla de calidad de fechas |
 | 10.800 eventos v1 y 32.400 eventos v2 | Compatibilizar las versiones mediante un esquema común |
 | `carbon_kg` y `genai_tokens` ausentes en v1 | Mantener los campos como opcionales, sin reemplazar automáticamente su ausencia por cero |
 
@@ -111,7 +123,7 @@ Las fuentes combinan identificadores, categorías, fechas, booleanos e importes.
 
 Los originales se conservarán sin modificaciones en Landing. Para las etapas posteriores se propone incorporar `source_file` e `ingest_ts`, que identificarán el archivo de origen y el momento de ingesta. También se conservarán las claves de negocio y `schema_version` en los eventos.
 
-La exploración no valida todavía todos los rangos, fechas, tipos de cambio, relaciones entre fuentes, anomalías ni llegada tardía de eventos. Los hallazgos permiten definir controles iniciales, pero no constituyen una limpieza completa.
+La exploración revisa estructura, tipos, nulos, reglas de consistencia, integridad referencial y orden temporal de llegada, pero no constituye una limpieza: los criterios de tratamiento quedan como decisiones abiertas (sección 8).
 
 ## 4. Arquitectura de alto nivel
 
@@ -216,7 +228,21 @@ Una política de retención para producción quedará pendiente de definir segú
 
 En PySpark, este cálculo se expresará mediante `groupBy` y `sum`.
 
-**Supuestos y riesgos:** se asume que los archivos provistos representan las fuentes del caso y que los JSONL simulan eventos en llegada continua. Los principales riesgos son datos incompletos, cambios de esquema y duplicados por reprocesamiento. Se mitigarán con reglas de calidad, compatibilidad entre versiones y controles de claves. Quedan por definir la tolerancia de llegada tardía y el tratamiento de costos negativos.
+**Supuestos y riesgos:** se asume que los archivos provistos representan las fuentes del caso y que los JSONL simulan eventos en llegada continua. Los principales riesgos son datos incompletos, cambios de esquema y duplicados por reprocesamiento. Se mitigarán con reglas de calidad, compatibilidad entre versiones y controles de claves.
+
+**Decisiones abiertas.** Surgen de la exploración y se resolverán antes de implementar Silver:
+
+| Tema | Hallazgo | Opciones a evaluar |
+|---|---|---|
+| Costos negativos | 216 eventos | Ajustes válidos, error a quarantine o conservar con flag |
+| Llegada tardía | Cada archivo abarca ≈60 días; con un watermark de 7 días el 87,6 % de los eventos serían tardíos | No descartar por watermark; upsert idempotente por `event_id` |
+| Eventos anteriores a la creación del recurso | 7.371 eventos (17,1 %) | Enviar a quarantine o conservar con flag |
+| `unit` nulo con `value` | 2.038 eventos | Inferir la unidad según la métrica o marcar el registro |
+| `credits` vacío | 137 facturas | Interpretarlo como cero o como dato faltante |
+| Moneda y tipo de cambio | Tipo de cambio distinto de 1 en 160 facturas en USD; importes en ARS de magnitud similar a USD | Verificar con la cátedra y calcular ingresos en USD con la tasa de la factura |
+| Escalas de NPS y CSAT | `csat` entre 0 y 7; `nps_score` negativos | Fijar el rango válido; los valores fuera de rango pasan a nulo con flag |
+| Método de detección de anomalías de costo | Sin definir | Percentiles por servicio o z-score robusto por organización y servicio |
+| Latencia objetivo del streaming | Sin definir | Fijarla tras pruebas |
 
 ### Roles
 

@@ -17,7 +17,7 @@ try:
 except ImportError:
     sys.exit(
         "Faltan dependencias. Activá el venv e instalá:\n"
-        "    pip install -r tools/docs/requirements.txt\n"
+        "    pip install -r requirements.txt\n"
         "(ver tools/docs/README.md)"
     )
 

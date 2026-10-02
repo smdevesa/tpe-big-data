@@ -1,0 +1,12 @@
+# Dependencias de Python del proyecto (un solo venv en la raíz: .venv)
+#   pip install -r requirements.txt
+
+# Informe: Markdown -> PDF (tools/docs/build_pdf.py)
+pypandoc_binary>=1.14
+typst>=0.13
+
+# Notebooks de exploración (notebooks/)
+pandas>=2.0
+numpy>=1.24
+matplotlib>=3.7
+jupyterlab>=4.0

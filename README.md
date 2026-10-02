@@ -1,9 +1,8 @@
 # Cloud Provider Analytics — TPE Big Data
 
-Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026): pipeline ETL + streaming + serving
-con PySpark, Parquet y Cassandra/AstraDB para analítica de FinOps, Soporte y Producto.
+Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026).
 
-**Equipo:** Francisco Varela (64447) · Santiago Manuel Devesa (64223)
+**Equipo:** Francisco Varela (64447) · Santiago Manuel Devesa (64223) · _(completar con los demás integrantes)_
 **Docente:** Diego Mosquera
 
 | Instancia | Fecha límite |
@@ -12,39 +11,71 @@ con PySpark, Parquet y Cassandra/AstraDB para analítica de FinOps, Soporte y Pr
 | Segunda evaluación parcial | Lunes 16/11/2026 · 18:30 h |
 | Evaluación final (MVP) | Lunes 07/12/2026 · 21:30 h |
 
+## Objetivo
+
+Pipeline ETL + streaming + serving para un proveedor de nube: integra clientes, recursos, facturación, soporte, marketing y eventos de uso para responder preguntas de FinOps, Soporte y Producto. Usa PySpark, Parquet y Cassandra/AstraDB.
+
+## Arquitectura
+
+Patrón híbrido (batch + streaming) sobre un Data Lake de cuatro zonas en Parquet: Landing → Bronze → Silver → Gold, con publicación en Cassandra/AstraDB. El diseño completo está en [`docs/entrega1/diseno.md`](docs/entrega1/diseno.md).
+
+![Arquitectura propuesta](docs/entrega1/img/arquitectura-v1.png)
+
 ## Estructura del repositorio
 
 ```
 .
-├── datalake/               Data Lake (ver datalake/README.txt)
-│   └── landing/            datos crudos provistos por la cátedra — INMUTABLES, no modificar
-│                           (bronze/, silver/, gold/ y quarantine/ se generan al ejecutar el pipeline y no se versionan)
-├── docs/
-│   ├── Consigna.pdf        consigna oficial de las tres instancias
-│   ├── entrega1/           informe de la primera entrega (diseno.md + img/ + diagramas/)
-│   └── build/              PDFs generados (ignorado por Git: se reconstruyen desde el Markdown)
-└── tools/
-    └── docs/               herramientas para generar el PDF desde Markdown (ver su README)
+├── README.md
+├── DECISIONS.md            decisiones, alternativas y justificaciones
+├── docs/                   consigna, informes (entrega1/…) y PDFs generados
+├── data/                   datos de muestra / cómo obtenerlos (nunca secretos)
+├── datalake/               zonas del Data Lake; landing/ = datos provistos, INMUTABLES
+├── src/                    código de ingesta, procesamiento y serving
+├── notebooks/              exploración de datos, con salidas guardadas
+├── tests/                  pruebas de transformaciones y calidad
+├── config/                 configuración externalizada (ejemplos sin credenciales)
+├── infra/                  Docker, compose o scripts para ejecutar
+├── evidence/               logs, capturas y resultados de cada entrega
+└── tools/docs/             herramientas para generar el PDF desde Markdown
 ```
 
-A medida que avance la implementación se irán sumando `notebooks/`, `src/`, `cql/` y `tests/`.
+`datalake/bronze|silver|gold|quarantine/` y los checkpoints se generan al ejecutar el pipeline y no se versionan.
 
-## Generar el PDF del informe
+## Requisitos
 
-Requiere Python 3.10+. Desde la raíz del repo:
+- Python 3.10+ (dependencias en [`requirements.txt`](requirements.txt))
+- A partir de la segunda entrega: Java 11/17 y PySpark, y una cuenta de AstraDB (ver [`config/`](config/))
+
+## Ejecución
+
+Entorno (una vez, desde la raíz):
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate              # Windows PowerShell: .\.venv\Scripts\Activate.ps1
-pip install -r tools/docs/requirements.txt
-python tools/docs/build_pdf.py         # -> docs/build/entrega1.pdf
+pip install -r requirements.txt
 ```
 
-Detalle, convenciones de escritura y solución de problemas en [`tools/docs/README.md`](tools/docs/README.md).
+Estado actual (primera entrega):
+
+| Qué | Cómo |
+|---|---|
+| Generar el PDF del informe | `python tools/docs/build_pdf.py` → `docs/build/entrega1.pdf` (detalle en [`tools/docs/README.md`](tools/docs/README.md)) |
+| Explorar los datos | `jupyter lab notebooks/` (ver [`notebooks/README.md`](notebooks/README.md)) |
+
+El comando para ejecutar el pipeline completo se agregará con la implementación.
+
+## Pruebas
+
+Se agregarán en `tests/` junto con el código. Hoy no hay código productivo que probar.
+
+## Limitaciones
+
+Primera entrega: diseño y exploración. No hay pipeline implementado todavía; los indicadores y las reglas de calidad descriptos en el informe son propuestas.
 
 ## Convenciones
 
 - El informe se escribe en Markdown (`docs/entrega1/diseno.md`); el PDF es un producto del build.
-- `datalake/landing/` no se modifica nunca. 
-- Al entregar: `git tag entregaN`.
+- `datalake/landing/` no se modifica nunca (la consigna lo exige). Git está configurado para no alterar esos archivos.
+- Una rama por cambio y revisión de otro integrante antes de mergear. Al entregar: `git tag entregaN`.
 - Nunca se versionan credenciales de AstraDB (token, Secure Connect Bundle): usar `.env` (ignorado).

@@ -2,7 +2,7 @@
 
 Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026).
 
-**Equipo:** Francisco Varela (64447) · Santiago Manuel Devesa (64223) · _(completar con los demás integrantes)_
+**Equipo:** Santiago Manuel Devesa (64223) · Rosario Otegui · Alicia Cobo Iglesias · Ernest Elies Domingo · Francisco Varela (64447)
 **Docente:** Diego Mosquera
 
 | Instancia | Fecha límite |
@@ -10,6 +10,32 @@ Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026).
 | Primera evaluación parcial | Lunes 05/10/2026 (prórroga de una semana sobre el 28/09) |
 | Segunda evaluación parcial | Lunes 16/11/2026 · 18:30 h |
 | Evaluación final (MVP) | Lunes 07/12/2026 · 21:30 h |
+
+## Estado de la primera entrega
+
+Seguimiento contra el alcance obligatorio de la consigna (sección 5.2). El informe está en [`docs/entrega1/diseno.md`](docs/entrega1/diseno.md).
+
+| # | Sección de la consigna | Estado | Pendiente |
+|---|---|---|---|
+| 1 | Problema, usuarios, preguntas y objetivos | Completa | — |
+| 2 | Justificación de Big Data (5V) | Completa | — |
+| 3 | Inventario y perfil de fuentes | Completa | — |
+| 4 | Diagrama de arquitectura de alto nivel | Completa | Agregar versión y fecha al diagrama |
+| 5 | Selección del patrón | Completa | — |
+| 6 | Mapeo requisitos → componentes y 5V | Completa | — |
+| 7 | Diseño del Data Lake | Completa | — |
+| 8 | Flujos batch y streaming con herramientas | Parcial | Detallar herramientas, checkpoints y modelo de Cassandra |
+| 9 | Flujo batch con lógica MapReduce | Parcial | Ampliar el ejemplo (por ejemplo, a facturación) |
+| 10 | Supuestos, riesgos, mitigaciones y decisiones abiertas | Parcial | Tabla de riesgos con mitigaciones (las decisiones abiertas ya están) |
+| 11 | Esfuerzo, roles y recursos | Esqueleto | Definir roles, responsables y horas |
+| 12 | Repositorio inicial y evidencia de exploración | Completa | — |
+
+Otros pendientes del equipo:
+
+- [ ] Legajos de Rosario Otegui, Alicia Cobo Iglesias y Ernest Elies Domingo (carátula del informe).
+- [ ] Confirmar la fecha de entrega (5/10) y generar el PDF final.
+- [ ] Revisión del informe por todos los integrantes antes de entregar.
+- [ ] Commit, `git tag entrega1` y push.
 
 ## Objetivo
 

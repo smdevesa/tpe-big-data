@@ -10,8 +10,11 @@
 
 | Nombre | Legajo |
 |---|---|
-| Francisco Varela | 64447 |
 | Santiago Manuel Devesa | 64223 |
+| Rosario Otegui | — |
+| Alicia Cobo Iglesias | — |
+| Ernest Elies Domingo | — |
+| Francisco Varela | 64447 |
 
 **Profesores**
 
@@ -244,6 +247,43 @@ En PySpark, este cálculo se expresará mediante `groupBy` y `sum`.
 | Método de detección de anomalías de costo | Sin definir | Percentiles por servicio o z-score robusto por organización y servicio |
 | Latencia objetivo del streaming | Sin definir | Fijarla tras pruebas |
 
+## 9. Estimación de esfuerzo, roles y recursos
+
 ### Roles
 
-<!-- TODO: sección vacía en el borrador original (PDF, p. 12). -->
+| Integrante | Rol principal | Apoyo en |
+|---|---|---|
+| Santiago Manuel Devesa | A definir | A definir |
+| Rosario Otegui | A definir | A definir |
+| Alicia Cobo Iglesias | A definir | A definir |
+| Ernest Elies Domingo | A definir | A definir |
+| Francisco Varela | A definir | A definir |
+
+### Estimación de esfuerzo
+
+Horas-persona por paquete de trabajo. Las cifras son preliminares y se ajustarán al cerrar cada instancia.
+
+| Paquete de trabajo | Resultado esperado | Responsable | Horas | Instancia |
+|---|---|---|---:|---|
+| Diseño y documento de arquitectura | Informe, diagrama y matriz requisito-componente | A definir | A definir | Primera entrega |
+| Exploración y calidad de datos | Notebooks y reglas de calidad candidatas | A definir | A definir | Primera entrega |
+| Repositorio y reproducibilidad | Estructura, README, dependencias y configuración | A definir | A definir | Primera entrega |
+| Ingesta batch (Landing y Bronze) | Maestros y facturación en Parquet con origen registrado | A definir | A definir | Segunda entrega |
+| Silver y quarantine | Datos normalizados, reglas de calidad y rechazados | A definir | A definir | Segunda entrega |
+| Streaming de eventos | Micro-lotes, checkpoints y deduplicación por `event_id` | A definir | A definir | Segunda entrega |
+| Gold (marts de negocio) | Tablas para FinOps, Soporte y Producto | A definir | A definir | Segunda entrega |
+| Serving en Cassandra/AstraDB | Modelo por consulta y carga de resultados | A definir | A definir | Segunda entrega |
+| Anomalías y calidad avanzada | Detección de costos atípicos y métricas de calidad | A definir | A definir | Entrega final |
+| Pruebas | Pruebas de transformaciones y calidad | A definir | A definir | Entrega final |
+| Defensa y demostración | Presentación, demo reproducible y evidencias | A definir | A definir | Entrega final |
+| **Total** | | | **A definir** | |
+
+### Recursos requeridos
+
+| Recurso | Uso | Estado |
+|---|---|---|
+| PySpark y Structured Streaming | Procesamiento batch y streaming | A definir (entorno local o Colab) |
+| Parquet y Data Lake local | Zonas Landing, Bronze, Silver y Gold | A definir |
+| Cassandra/AstraDB | Serving de las consultas | A definir (cuenta y credenciales) |
+| Repositorio Git | Versionado del código y del informe | Disponible |
+| Google Colab y Jupyter | Exploración de datos | Disponible |

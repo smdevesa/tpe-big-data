@@ -8,6 +8,7 @@ Uso (desde la raíz del repo, con el venv activado o llamando al python del venv
     python tools/docs/build_pdf.py entrega2 --toc  # otro documento, con índice
 """
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -24,6 +25,19 @@ except ImportError:
 TOOLS = Path(__file__).resolve().parent   # tools/docs/
 ROOT = TOOLS.parents[1]                    # raíz del repo
 DOCS = ROOT / "docs"
+
+
+def _auto_columns(typ: Path) -> None:
+    """Las versiones nuevas de pandoc fijan el ancho de cada columna (por ejemplo `columns: (30%, 70%)`)
+    y el texto largo de una celda pisa a la columna vecina. Se reemplaza por columnas automáticas."""
+    text = typ.read_text(encoding="utf-8")
+    fixed = re.sub(
+        r"columns:\s*\(([^()]*)\)",
+        lambda m: f"columns: {m.group(1).count(',') + 1}",
+        text,
+    )
+    if fixed != text:
+        typ.write_text(fixed, encoding="utf-8")
 
 
 def build(doc: str, source: str, toc: bool, mainfont: str | None) -> Path:
@@ -54,6 +68,7 @@ def build(doc: str, source: str, toc: bool, mainfont: str | None) -> Path:
         pypandoc.convert_file(
             str(md), "typst", format="markdown", extra_args=args, outputfile=str(tmp)
         )
+        _auto_columns(tmp)
         typst.compile(
             str(tmp),
             output=str(pdf),

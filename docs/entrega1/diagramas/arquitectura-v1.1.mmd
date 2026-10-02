@@ -13,8 +13,8 @@ flowchart TB
     csv["<b>Fuentes CSV</b><br/>Clientes · usuarios<br/>recursos · soporte<br/>marketing · NPS<br/>facturación<br/><i>ingesta batch</i>"]
     jsonl["<b>Eventos JSONL</b><br/>Uso de servicios<br/>120 archivos<br/><i>ingesta por micro-lotes</i>"]
 
-    subgraph DL["DATA LAKE · zonas en Parquet"]
-        landing["<b>Landing</b><br/>Originales sin modificar<br/>(inmutable)"]
+    subgraph DL["DATA LAKE"]
+        landing["<b>Landing</b><br/>Originales sin modificar<br/>"]
         batch["<b>Batch · PySpark</b><br/>Maestros y facturación<br/>esquemas explícitos"]
         stream["<b>Streaming</b><br/>Structured Streaming<br/>Eventos de uso<br/>checkpoints · dedup event_id"]
         bronze["<b>Bronze</b><br/>Tipos definidos<br/>source_file · ingest_ts"]
@@ -28,7 +28,7 @@ flowchart TB
         silver --> gold
     end
 
-    anom["<b>Analítica de anomalías</b><br/>Flags de costo atípico<br/>(método a definir)"]
+    anom["<b>Analítica de anomalías</b><br/>Flags de costo atípico"]
     cass["<b>Cassandra / AstraDB</b><br/>Tablas modeladas por consulta"]
     cons["<b>Consumo</b><br/>Consultas y visualizaciones"]
 

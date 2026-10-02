@@ -20,15 +20,16 @@ Seguimiento contra el alcance obligatorio de la consigna (sección 5.2). El info
 | 1 | Problema, usuarios, preguntas y objetivos | Completa | — |
 | 2 | Justificación de Big Data (5V) | Completa | — |
 | 3 | Inventario y perfil de fuentes | Completa | — |
-| 4 | Diagrama de arquitectura de alto nivel | Completa | Agregar versión y fecha al diagrama |
+| 4 | Diagrama de arquitectura de alto nivel | Completa | — |
 | 5 | Selección del patrón | Completa | — |
 | 6 | Mapeo requisitos → componentes y 5V | Completa | — |
 | 7 | Diseño del Data Lake | Completa | — |
-| 8 | Flujos batch y streaming con herramientas | Parcial | Detallar herramientas, checkpoints y modelo de Cassandra |
-| 9 | Flujo batch con lógica MapReduce | Parcial | Ampliar el ejemplo (por ejemplo, a facturación) |
-| 10 | Supuestos, riesgos, mitigaciones y decisiones abiertas | Parcial | Tabla de riesgos con mitigaciones (las decisiones abiertas ya están) |
+| 8 | Flujos batch y streaming con herramientas | Completa (versión breve) | Modelo de Cassandra preliminar: validar en la implementación |
+| 9 | Flujo batch con lógica MapReduce | Completa (versión breve) | — |
+| 10 | Supuestos, riesgos, mitigaciones y decisiones abiertas | Completa | — |
 | 11 | Esfuerzo, roles y recursos | Esqueleto | Definir roles, responsables y horas |
 | 12 | Repositorio inicial y evidencia de exploración | Completa | — |
+| — | Próximos pasos (Plan inicial, consigna 5.3) | Completa | Completar fechas y responsables tras la sección 11 |
 
 Otros pendientes del equipo:
 

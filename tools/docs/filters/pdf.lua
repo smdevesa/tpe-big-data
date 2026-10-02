@@ -31,3 +31,12 @@ function RawInline(el)
     end
   end
 end
+
+-- Tablas: ignorar los anchos de columna que pandoc deduce del Markdown (según la versión pueden salir
+-- como porcentajes fijos y el texto de una columna pisa a la vecina). Sin ancho, Typst ajusta cada columna al contenido.
+function Table(tbl)
+  for i, spec in ipairs(tbl.colspecs) do
+    tbl.colspecs[i] = { spec[1], nil }
+  end
+  return tbl
+end

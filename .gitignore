@@ -1,0 +1,53 @@
+# ---------- Python / entornos virtuales ----------
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# ---------- Credenciales y secretos (AstraDB / Cassandra) ----------
+.env
+.env.*
+!.env.example
+secure-connect-*.zip
+*-token.json
+astra*.json
+credentials*.json
+
+# ---------- Salidas generadas del pipeline (Spark) ----------
+datalake/bronze/
+datalake/silver/
+datalake/gold/
+datalake/quarantine/
+datalake/_checkpoints/
+checkpoints/
+_checkpoints/
+spark-warehouse/
+metastore_db/
+derby.log
+*.crc
+.ivy2/
+
+# ---------- Build de documentos (Markdown -> PDF) ----------
+docs/build/
+*.build.typ
+
+# ---------- Sistema operativo ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Editores ----------
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*~

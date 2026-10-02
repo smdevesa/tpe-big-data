@@ -1,0 +1,10 @@
+# Opciones de pandoc para el PDF (las lee docs/build_pdf.py).
+metadata:
+  lang: es
+variables:
+  mainfont: Inter
+  papersize: a4
+  fontsize: 10pt
+  margin:
+    x: 2.4cm
+    y: 2.3cm

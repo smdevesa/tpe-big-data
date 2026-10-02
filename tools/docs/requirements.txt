@@ -1,0 +1,3 @@
+# Dependencias para generar los PDF de docs/ (se instalan en un venv, ver docs/BUILD.md)
+pypandoc_binary>=1.14   # trae pandoc incluido (no hace falta instalarlo aparte)
+typst>=0.13             # compilador Typst como librería de Python

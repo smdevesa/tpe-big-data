@@ -1,0 +1,63 @@
+---
+title: Cloud Provider Analytics — Arquitectura propuesta (v1.1 · 02/10/2026)
+config:
+  flowchart:
+    nodeSpacing: 25
+    rankSpacing: 28
+    padding: 8
+    subGraphTitleMargin:
+      top: 6
+      bottom: 30
+---
+flowchart TB
+    csv["<b>Fuentes CSV</b><br/>Clientes · usuarios<br/>recursos · soporte<br/>marketing · NPS<br/>facturación<br/><i>ingesta batch</i>"]
+    jsonl["<b>Eventos JSONL</b><br/>Uso de servicios<br/>120 archivos<br/><i>ingesta por micro-lotes</i>"]
+
+    subgraph DL["DATA LAKE · zonas en Parquet"]
+        landing["<b>Landing</b><br/>Originales sin modificar<br/>(inmutable)"]
+        batch["<b>Batch · PySpark</b><br/>Maestros y facturación<br/>esquemas explícitos"]
+        stream["<b>Streaming</b><br/>Structured Streaming<br/>Eventos de uso<br/>checkpoints · dedup event_id"]
+        bronze["<b>Bronze</b><br/>Tipos definidos<br/>source_file · ingest_ts"]
+        silver["<b>Silver</b><br/>Normalización, validación<br/>y compatibilidad v1/v2"]
+        gold["<b>Gold</b><br/>Marts de negocio<br/>FinOps · Soporte<br/>Producto"]
+        quar["<b>Quarantine</b><br/>Registros inválidos<br/>con motivo y origen"]
+        landing --> batch --> bronze
+        landing --> stream --> bronze
+        bronze --> silver
+        silver -->|"inválidos"| quar
+        silver --> gold
+    end
+
+    anom["<b>Analítica de anomalías</b><br/>Flags de costo atípico<br/>(método a definir)"]
+    cass["<b>Cassandra / AstraDB</b><br/>Tablas modeladas por consulta"]
+    cons["<b>Consumo</b><br/>Consultas y visualizaciones"]
+
+    csv --> landing
+    jsonl --> landing
+    silver -->|"costos"| anom -->|"flags"| gold
+    gold -->|"carga"| cass --> cons
+
+    transv["<b>En todo el recorrido:</b> gobierno · calidad · seguridad · metadatos y trazabilidad · observabilidad"]
+    cons ~~~ transv
+
+    style DL fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:6 4
+    classDef batch fill:#dbeafe,stroke:#3b82f6,color:#1e293b
+    classDef stream fill:#dcfce7,stroke:#22c55e,color:#1e293b
+    classDef zone fill:#fef9c3,stroke:#eab308,color:#1e293b
+    classDef raw fill:#ffffff,stroke:#64748b,color:#1e293b
+    classDef silverc fill:#e2e8f0,stroke:#64748b,color:#1e293b
+    classDef goldc fill:#fde68a,stroke:#f59e0b,color:#1e293b
+    classDef bad fill:#fee2e2,stroke:#ef4444,color:#1e293b
+    classDef serve fill:#ede9fe,stroke:#8b5cf6,color:#1e293b
+    classDef use fill:#fce7f3,stroke:#ec4899,color:#1e293b
+    classDef bar fill:#f1f5f9,stroke:#94a3b8,color:#1e293b
+    class csv,batch batch
+    class jsonl,stream stream
+    class bronze zone
+    class landing raw
+    class silver silverc
+    class gold goldc
+    class quar bad
+    class anom,cass serve
+    class cons use
+    class transv bar

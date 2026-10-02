@@ -6,14 +6,16 @@
 
 **Primera evaluación parcial**
 
+Fecha de entrega: 05/10/2026
+
 **Alumnos**
 
 | Nombre | Legajo |
 |---|---|
 | Santiago Manuel Devesa | 64223 |
-| Rosario Otegui | — |
-| Alicia Cobo Iglesias | — |
-| Ernest Elies Domingo | — |
+| Rosario Otegui | 63708 |
+| Alicia Cobo Iglesias | 69568 |
+| Ernest Elies Domingo | 69613 |
 | Francisco Varela | 64447 |
 
 **Profesores**
@@ -73,11 +75,7 @@ La arquitectura debe responder tanto al crecimiento de los datos como a la neces
 
 ## 3. Inventario y calidad inicial
 
-[Link al Colab](https://colab.research.google.com/drive/1as-zul5f7WTrQ2JBLxVz6qLNNwRzgz8C)
-
-La exploración se replica con pandas en los notebooks del repositorio: `notebooks/01_exploracion_maestros.ipynb` y `notebooks/02_exploracion_eventos.ipynb`, con salidas guardadas.
-
-Se realizó una exploración en Google Colab con PySpark para revisar la estructura, la cantidad de registros, los valores nulos y los duplicados de las fuentes. Los archivos originales no fueron modificados.
+Se realizó una exploración local con pandas para revisar la estructura, la cantidad de registros, los tipos, los valores nulos y los duplicados de las fuentes. Está documentada en los notebooks del repositorio, con las salidas guardadas: `notebooks/01_exploracion_maestros.ipynb` y `notebooks/02_exploracion_eventos.ipynb`. Los archivos originales no fueron modificados.
 
 | Fuente | Filas | Grano y clave candidata |
 |---|---:|---|
@@ -94,7 +92,7 @@ No se observaron duplicados en las claves revisadas. Este resultado corresponde 
 
 Se propone una ingesta batch diaria para clientes, usuarios, recursos, soporte, marketing y encuestas, y mensual para facturación. Estas frecuencias son decisiones de diseño: no pueden inferirse de los archivos estáticos del ZIP. Los eventos JSONL se utilizarán para simular una ingesta en micro-lotes.
 
-Las fuentes combinan identificadores, categorías, fechas, booleanos e importes. En la exploración se utilizaron tipos inferidos por Spark; para la implementación se definirán esquemas explícitos. El campo `value` de los eventos fue interpretado como texto y requerirá una conversión antes de realizar cálculos. El campo `tags_json` contiene etiquetas que requieren interpretación como JSON.
+Las fuentes combinan identificadores, categorías, fechas, booleanos e importes. Para la implementación se definirán esquemas explícitos. El campo `value` de los eventos llega como número, como texto o nulo, y requerirá una conversión antes de realizar cálculos. El campo `tags_json` contiene etiquetas que requieren interpretación como JSON.
 
 ### Hallazgos de calidad
 
@@ -130,27 +128,38 @@ La exploración revisa estructura, tipos, nulos, reglas de consistencia, integri
 
 ## 4. Arquitectura de alto nivel
 
-La solución tendrá dos caminos de entrada:
+La solución sigue la cadena de referencia de la consigna: fuentes, ingesta, Data Lake, procesamiento batch y streaming, serving y consumo, con capacidades transversales. Tiene dos caminos de entrada:
 
-- **Batch:** PySpark leerá periódicamente los archivos CSV de clientes, usuarios, recursos, soporte, marketing, encuestas y facturación.
-- **Streaming:** Structured Streaming leerá los eventos JSONL en micro-lotes para actualizar las métricas de uso y costos.
+- **Batch:** PySpark lee periódicamente los archivos CSV de clientes, usuarios, recursos, soporte, marketing, encuestas y facturación.
+- **Streaming:** Structured Streaming lee los eventos JSONL en micro-lotes para actualizar las métricas de uso y costos.
 
-Ambos caminos utilizarán un Data Lake con cuatro zonas:
+Ambos caminos utilizan un Data Lake con cuatro zonas en Parquet (Landing, Bronze, Silver y Gold) y un área de **quarantine** para los registros inválidos. Los resultados de Gold se publican en Cassandra/AstraDB, desde donde se consultan y visualizan. Esta arquitectura es una propuesta de diseño; su implementación se realizará en las siguientes etapas.
 
-- **Landing:** archivos originales, sin modificaciones.
-- **Bronze:** datos en Parquet, con tipos definidos e información de origen.
-- **Silver:** datos normalizados, relacionados y con controles de calidad.
-- **Gold:** tablas con indicadores para FinOps, Soporte y Producto.
+El diagrama de la página siguiente resume el recorrido de los datos y la tabla detalla la responsabilidad de cada componente.
 
-Los resultados se publicarán en Cassandra/AstraDB para realizar consultas y visualizaciones. Durante todo el recorrido se contemplarán calidad, seguridad, trazabilidad, responsables y registro de errores.
+### Responsabilidades por componente
 
-Esta arquitectura es una propuesta de diseño; su implementación se realizará en las siguientes etapas.
+| Componente | Responsabilidad | Herramienta |
+|---|---|---|
+| Ingesta batch | Leer los CSV de Landing, aplicar esquemas explícitos y escribir Bronze | PySpark |
+| Ingesta streaming | Leer los JSONL en micro-lotes, deduplicar por `event_id` y recuperar el avance con checkpoints | Structured Streaming |
+| Landing | Conservar los originales sin modificarlos | Archivos CSV y JSONL |
+| Bronze | Mantener el grano de la fuente con tipos definidos y registrar origen (`source_file`, `ingest_ts`) | Parquet |
+| Silver | Normalizar, relacionar fuentes, tratar nulos y compatibilizar las versiones v1 y v2 de los eventos | PySpark, Parquet |
+| Quarantine | Guardar los registros que incumplen las reglas de validez, con motivo y origen | Parquet |
+| Analítica de anomalías | Marcar con un flag o score los costos atípicos, conservando el dato original | PySpark |
+| Gold | Publicar los marts de FinOps, Soporte y Producto con grano definido | PySpark, Parquet |
+| Serving | Exponer los marts en tablas modeladas según las consultas | Cassandra/AstraDB |
+| Consumo | Consultar y visualizar los indicadores | Herramienta de visualización a definir |
+| Transversales | Gobierno, calidad, seguridad, metadatos, trazabilidad y observabilidad en todo el recorrido | Reglas de calidad, columnas técnicas y registros de ejecución |
 
-[Link al Draw.io](https://app.diagrams.net/#G1EeB3nMbnvKgcZJeGUFQYVam3ngsjI1H7#%7B%22pageId%22%3A%22arquitectura-simple%22%7D)
+<!-- pagebreak -->
 
-![Cloud Provider Analytics — Arquitectura propuesta (v1)](img/arquitectura-v1.png)
+![Cloud Provider Analytics — Arquitectura propuesta (v1.1, 02/10/2026)](img/arquitectura-v1.1.png){height=23cm}
 
-*Fuente editable en texto: [`diagramas/arquitectura-v1.mmd`](diagramas/arquitectura-v1.mmd) (Mermaid).*
+*Fuente editable en texto: [`diagramas/arquitectura-v1.1.mmd`](diagramas/arquitectura-v1.1.mmd) (Mermaid).*
+
+<!-- pagebreak -->
 
 ## 5. Selección del patrón arquitectónico
 
@@ -282,8 +291,8 @@ Horas-persona por paquete de trabajo. Las cifras son preliminares y se ajustará
 
 | Recurso | Uso | Estado |
 |---|---|---|
-| PySpark y Structured Streaming | Procesamiento batch y streaming | A definir (entorno local o Colab) |
+| PySpark y Structured Streaming | Procesamiento batch y streaming | A definir |
 | Parquet y Data Lake local | Zonas Landing, Bronze, Silver y Gold | A definir |
 | Cassandra/AstraDB | Serving de las consultas | A definir (cuenta y credenciales) |
 | Repositorio Git | Versionado del código y del informe | Disponible |
-| Google Colab y Jupyter | Exploración de datos | Disponible |
+| Jupyter y pandas | Exploración de datos | Disponible |

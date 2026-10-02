@@ -131,3 +131,13 @@ git push -u origin entrega1/seccion-roles   # abrir PR y que lo revise el otro
 En VS Code, `Ctrl+Shift+V` abre la vista previa de Markdown. Para ver los diagramas Mermaid dentro de ella
 instalen la extensión *Markdown Preview Mermaid Support*. El PDF final siempre conviene mirarlo antes de entregar:
 la vista previa de VS Code y el PDF no son idénticos (por ejemplo, el salto de página solo existe en el PDF).
+
+## 7. Diagramas (Mermaid)
+
+Los diagramas se escriben como texto en `docs/entrega1/diagramas/*.mmd` y se exportan a PNG en `docs/entrega1/img/`, que es lo que incluye el informe. Hay que re-exportar cada vez que se edita el `.mmd`:
+
+```bash
+npx -y @mermaid-js/mermaid-cli -i docs/entrega1/diagramas/arquitectura-v1.1.mmd -o docs/entrega1/img/arquitectura-v1.1.png -s 2 -b white
+```
+
+Requiere Node.js; la primera vez descarga un Chromium. Al cambiar la versión del diagrama, actualizar el título del `.mmd` (versión y fecha) y el nombre de los archivos.

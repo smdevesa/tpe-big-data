@@ -2,12 +2,12 @@
 
 Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026).
 
-**Equipo:** Santiago Manuel Devesa (64223) · Rosario Otegui · Alicia Cobo Iglesias · Ernest Elies Domingo · Francisco Varela (64447)
+**Equipo:** Santiago Manuel Devesa (64223) · Rosario Otegui (63708) · Alicia Cobo Iglesias (69568) · Ernest Elies Domingo (69613) · Francisco Varela (64447)
 **Docente:** Diego Mosquera
 
 | Instancia | Fecha límite |
 |---|---|
-| Primera evaluación parcial | Lunes 05/10/2026 (prórroga de una semana sobre el 28/09) |
+| Primera evaluación parcial | Lunes 05/10/2026 |
 | Segunda evaluación parcial | Lunes 16/11/2026 · 18:30 h |
 | Evaluación final (MVP) | Lunes 07/12/2026 · 21:30 h |
 
@@ -32,8 +32,7 @@ Seguimiento contra el alcance obligatorio de la consigna (sección 5.2). El info
 
 Otros pendientes del equipo:
 
-- [ ] Legajos de Rosario Otegui, Alicia Cobo Iglesias y Ernest Elies Domingo (carátula del informe).
-- [ ] Confirmar la fecha de entrega (5/10) y generar el PDF final.
+- [ ] Generar el PDF final para la entrega del 05/10.
 - [ ] Revisión del informe por todos los integrantes antes de entregar.
 - [ ] Commit, `git tag entrega1` y push.
 

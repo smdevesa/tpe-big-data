@@ -14,6 +14,6 @@ pip install -r requirements.txt
 jupyter lab notebooks/
 ```
 
-El notebook busca `datalake/landing` hacia arriba desde el directorio actual; se puede forzar con la variable de entorno `LANDING_DIR`. En Google Colab clona el repositorio automáticamente.
+El notebook busca `datalake/landing` hacia arriba desde el directorio actual; se puede forzar con la variable de entorno `LANDING_DIR`.
 
 Los borradores personales van en `notebooks/scratch/` (ignorado por Git).

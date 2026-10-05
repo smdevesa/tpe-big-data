@@ -88,10 +88,10 @@ La exploración se realizó con Pandas en `notebooks/01_exploracion_maestros.ipy
 | 11 organizaciones sin `nps_score`; 19 encuestas sin `nps_score` | Calcular sobre las puntuaciones disponibles e informar la cobertura |
 | 139 usuarios sin `last_login`; 232 con `last_login` anterior a `created_at` | Conservar la ausencia; validar la coherencia de fechas |
 | 240 tickets sin `resolved_at`, 254 sin `csat`; 172 con `csat` sin `resolved_at` | Distinguir abiertos de errores; CSAT sobre las respuestas disponibles |
-| `csat` entre 0 y 7; `nps_score` negativos | Abierta (sección 10) |
+| `csat` entre 0 y 7 | Abierta (sección 10) |
 | 137 facturas sin `credits`; 13 subtotales negativos | Abierta (sección 10) |
-| Tipo de cambio distinto de 1 en 160 facturas en USD; importes en ARS de magnitud similar a USD | Abierta (sección 10) |
-| 877 eventos sin `value`; 2.075 sin `unit`, de los cuales 2.038 tienen `value` | Validar según la métrica; flag o quarantine |
+| Tipo de cambio distinto de 1 en las 160 facturas en USD (entre 0,85 y 1,12); importes en ARS de magnitud similar a USD | Abierta (sección 10) |
+| 877 eventos sin `value`; 2.075 sin `unit`, de los cuales 2.038 tienen `value` | `unit` se infiere de la métrica (cada una tiene una sola unidad); `value` nulo se valida según la métrica, con flag o quarantine |
 | 216 eventos con costo negativo (211 menores a −0,01) | Flag; abierta (sección 10) |
 | 1.309 `value` como texto, todos convertibles | Cast con valor de respaldo en Bronze |
 | 7.371 eventos anteriores a la creación de su recurso | Abierta (sección 10) |
@@ -205,12 +205,11 @@ La suma es asociativa, así que cada partición puede pre-agregar sus eventos an
 | Tema | Opciones |
 |---|---|
 | Costos negativos | Ajustes válidos, error a quarantine o conservar con flag |
-| Eventos anteriores a la creación del recurso | Quarantine o conservar con flag |
-| `unit` nulo con `value` | Inferir la unidad según la métrica o marcar el registro |
+| Eventos anteriores a la creación del recurso | Quarantine o conservar con flag; el `created_at` del maestro puede no ser confiable |
 | `credits` vacío | Cero o dato faltante |
 | Subtotales negativos | Notas de crédito o error |
 | Moneda y tipo de cambio | Verificar con la cátedra; calcular en USD con la tasa de la factura |
-| Escalas de NPS y CSAT | Fijar el rango válido; fuera de rango pasa a nulo con flag |
+| Escala del CSAT (se observan valores de 0 a 7) | Fijar el rango válido; fuera de rango pasa a nulo con flag |
 | Método de anomalías de costo | Percentiles por servicio o z-score robusto por organización y servicio |
 
 ## 11. Estimación de esfuerzo, roles y recursos

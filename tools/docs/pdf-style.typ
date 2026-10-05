@@ -31,6 +31,7 @@
 #show table.cell.where(y: 0): set text(weight: "bold", fill: azul.darken(20%))
 #show table.cell: set align(left + horizon)
 #show table: set text(size: 0.92em)
+#show table: set par(justify: false)
 #show table: it => block(above: 1.2em, below: 1.2em, it)
 
 // Código en línea y en bloque: monoespaciada, sin caja de fondo

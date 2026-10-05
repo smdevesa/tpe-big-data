@@ -33,13 +33,11 @@
 #show table: set text(size: 0.92em)
 #show table: it => block(above: 1.2em, below: 1.2em, it)
 
-// Código en línea y en bloque
-#show raw.where(block: false): it => box(
-  fill: luma(240), inset: (x: 3pt), outset: (y: 3pt), radius: 2pt,
-  text(size: 0.88em, it),
-)
+// Código en línea y en bloque: monoespaciada, sin caja de fondo
+#let mono = ("DejaVu Sans Mono", "Consolas", "Menlo", "Liberation Mono")
+#show raw.where(block: false): set text(font: mono, size: 0.9em, fill: azul.darken(25%))
 #show raw.where(block: true): it => block(
-  fill: luma(245), inset: 10pt, radius: 3pt, width: 100%, text(size: 0.88em, it),
+  fill: luma(248), inset: 10pt, radius: 3pt, width: 100%, text(font: mono, size: 0.84em, it),
 )
 
 // Citas (> …)

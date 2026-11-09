@@ -1,4 +1,6 @@
 import logging
+import os
+import sys
 from functools import lru_cache
 
 from src import config
@@ -12,6 +14,7 @@ SHUFFLE_PARTITIONS = 8
 def get_spark():
     from pyspark.sql import SparkSession
 
+    os.environ.setdefault("PYSPARK_PYTHON", sys.executable)
     spark = (
         SparkSession.builder.appName("cloud-provider-analytics")
         .master(config.SPARK_MASTER)

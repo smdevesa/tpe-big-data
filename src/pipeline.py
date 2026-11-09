@@ -50,6 +50,7 @@ def reset():
 
 def run(selected):
     _log_environment()
+    pending = []
     for name, stage_fn in selected:
         try:
             with stage(name) as record:
@@ -57,7 +58,11 @@ def run(selected):
         except Exception:
             log.error("corrida abortada en la etapa %s", name)
             return 1
+        if record.status == "pending":
+            pending.append(name)
     log.info("corrida completa: %s", " -> ".join(name for name, _ in selected))
+    if pending:
+        log.warning("etapas pendientes de implementación: %s", ", ".join(pending))
     return 0
 
 

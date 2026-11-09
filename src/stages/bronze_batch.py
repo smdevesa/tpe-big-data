@@ -82,8 +82,13 @@ def _ingest(spark, source, ingest_ts, record):
     record.output(quarantine_path, quarantine_rows)
 
     by_reason = {row["reason"]: row["count"] for row in result.quarantine.groupBy("reason").count().collect()}
+    partitions = _partitions(bronze_path)
+    log.info(
+        "%s: %d landing -> %d bronze | %d quarantine | %d duplicados exactos | %s",
+        source.name, landing_rows, bronze_rows, quarantine_rows, exact_duplicates, ", ".join(partitions),
+    )
     if quarantine_rows:
-        log.warning("%s: %d filas a quarantine %s", source.name, quarantine_rows, by_reason)
+        log.warning("%s: motivos de quarantine %s", source.name, by_reason)
     sample = result.bronze.orderBy(source.key).limit(SAMPLE_ROWS).select(F.to_json(F.struct("*"))).collect()
     raw.unpersist()
 
@@ -93,7 +98,7 @@ def _ingest(spark, source, ingest_ts, record):
         "quarantine_rows": quarantine_rows,
         "exact_duplicates": exact_duplicates,
         "quarantine_by_reason": by_reason,
-        "partitions": _partitions(bronze_path),
+        "partitions": partitions,
         "schema": result.bronze.schema.simpleString(),
         "sample": [json.loads(row[0]) for row in sample],
     }

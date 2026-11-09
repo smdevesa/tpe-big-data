@@ -18,5 +18,8 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL") or "INFO"
 
 SPARK_MASTER = os.environ.get("SPARK_MASTER") or "local[*]"
 
+STREAM_WATERMARK = os.environ.get("STREAM_WATERMARK") or "61 days"
+STREAM_MAX_FILES_PER_TRIGGER = int(os.environ.get("STREAM_MAX_FILES_PER_TRIGGER") or 10)
+
 CASSANDRA_HOST = os.environ.get("CASSANDRA_HOST") or "127.0.0.1"
 CASSANDRA_KEYSPACE = os.environ.get("CASSANDRA_KEYSPACE") or "cloud_analytics"

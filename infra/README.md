@@ -5,4 +5,4 @@ Scripts y configuración para ejecutar el proyecto desde un entorno limpio. El e
 | Archivo | Qué hace |
 |---|---|
 | `colab_setup.sh` | Instala OpenJDK 17 y las dependencias de [`requirements.txt`](../requirements.txt) en el runtime de Colab. Idempotente. |
-| `log4j2.properties` | Logs de Spark: nivel WARN, mismo formato que los del proyecto, sin avisos irrelevantes (`NativeCodeLoader`). Lo carga [`src/spark.py`](../src/spark.py). |
+| `log4j2.properties` | Logs de Spark: nivel WARN, mismo formato que los del proyecto, sin avisos irrelevantes (`NativeCodeLoader`, AQE desactivado en streaming, ajuste de memoria de Parquet). Lo carga [`src/spark.py`](../src/spark.py). |

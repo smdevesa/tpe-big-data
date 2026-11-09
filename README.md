@@ -25,7 +25,7 @@ Patrón híbrido (batch + streaming) sobre un Data Lake de cuatro zonas en Parqu
 
 ## Ejecución del pipeline (Google Colab)
 
-Entorno oficial: Google Colab (Python 3.12, Java 17, PySpark 3.5.3; ver [`requirements.txt`](requirements.txt)).
+Entorno oficial: Google Colab (Python 3.13+, Java 17, PySpark 4.2.1; ver [`requirements.txt`](requirements.txt)).
 
 1. Abrir [`notebooks/e2_pipeline_colab.ipynb`](notebooks/e2_pipeline_colab.ipynb) en Colab.
 2. *Entorno de ejecución → Ejecutar todas*.

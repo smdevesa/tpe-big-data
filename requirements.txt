@@ -1,4 +1,4 @@
 # Dependencias del pipeline (las instala infra/colab_setup.sh)
-pyspark==3.5.3
-cassandra-driver==3.29.2
+pyspark==4.2.1
+cassandra-driver==3.30.1
 pytest==8.3.3

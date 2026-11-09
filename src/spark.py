@@ -5,8 +5,6 @@ from src import config
 
 log = logging.getLogger(__name__)
 
-# Debe acompañar a la versión de PySpark de requirements.txt (Spark 3.5, Scala 2.12).
-CASSANDRA_CONNECTOR = "com.datastax.spark:spark-cassandra-connector_2.12:3.5.1"
 SHUFFLE_PARTITIONS = 8
 
 
@@ -19,8 +17,6 @@ def get_spark():
         .master(config.SPARK_MASTER)
         .config("spark.sql.session.timeZone", "UTC")
         .config("spark.sql.shuffle.partitions", str(SHUFFLE_PARTITIONS))
-        .config("spark.jars.packages", CASSANDRA_CONNECTOR)
-        .config("spark.cassandra.connection.host", config.CASSANDRA_HOST)
         .getOrCreate()
     )
     spark.sparkContext.setLogLevel("WARN")

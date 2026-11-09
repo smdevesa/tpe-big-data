@@ -83,6 +83,6 @@ Segunda entrega en curso.
 |---|---|
 | Entrypoint, logs y evidencia automática | Implementado |
 | Bronze batch (`customers_orgs`, `users`, `resources`, `billing_monthly`) | Implementado y probado en Colab |
-| Bronze streaming (`usage_events`) | Implementado y probado localmente |
+| Bronze streaming (`usage_events`) | Implementado y probado en Colab |
 | Silver, Gold, serving en Cassandra | Pendiente (las etapas terminan con estado `pending`) |
 | Diagrama de arquitectura | Versión 1.1 de la primera entrega; se actualiza al cerrar la implementación |

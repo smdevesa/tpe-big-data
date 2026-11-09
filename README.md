@@ -11,17 +11,19 @@ Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026).
 
 **Docente:** Prof. (Adj.) Diego Mosquera
 
-**Estado actual del repositorio:** Primera entrega parcial
+**Estado actual del repositorio:** Segunda entrega parcial (en curso, rama `e2`)
 
 ## Objetivo
 
-Pipeline ETL + streaming + serving para un proveedor de nube: integra clientes, recursos, facturación, soporte, marketing y eventos de uso para responder preguntas de FinOps, Soporte y Producto. Usa PySpark, Parquet y Cassandra/AstraDB.
+Pipeline ETL + streaming + serving para un proveedor de nube: integra clientes, recursos, facturación, soporte, marketing y eventos de uso para responder preguntas de FinOps, Soporte y Producto. Usa PySpark, Parquet y Apache Cassandra.
 
 ## Arquitectura
 
-Patrón híbrido (batch + streaming) sobre un Data Lake de cuatro zonas en Parquet: Landing → Bronze → Silver → Gold, con publicación en Cassandra/AstraDB.
+Patrón híbrido (batch + streaming) sobre un Data Lake de cuatro zonas en Parquet: Landing → Bronze → Silver → Gold, con publicación en Apache Cassandra (local en el runtime; ver `DECISIONS.md`).
 
 ![Arquitectura propuesta](docs/entrega1/img/arquitectura-v1.1.png)
+
+Decisiones técnicas, alternativas y correcciones respecto de la primera entrega: [`DECISIONS.md`](DECISIONS.md).
 
 ## Ejecución del pipeline (Google Colab)
 
@@ -46,6 +48,20 @@ Cada etapa deja su evidencia en [`evidence/e2/`](evidence/): un JSON por etapa c
 python -m pytest -q tests
 ```
 
+Detalle en [`tests/README.md`](tests/README.md).
+
+## Ejecución local (opcional)
+
+Requiere Python 3.13 y Java 17 o 21. La evidencia oficial es la de Colab.
+
+```bash
+python3.13 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)   # macOS; en Linux, la ruta del JDK
+python -m src.pipeline run
+```
+
 ## Desarrollo local (informe y exploración)
 
 ```bash
@@ -61,4 +77,11 @@ pip install -r requirements-dev.txt
 
 ## Limitaciones
 
-Segunda entrega en curso: el entrypoint y la evidencia están implementados; las etapas se completan progresivamente.
+Segunda entrega en curso.
+
+| Componente | Estado |
+|---|---|
+| Entrypoint, logs y evidencia automática | Implementado |
+| Bronze batch (`customers_orgs`, `users`, `resources`, `billing_monthly`) | Implementado y probado en Colab |
+| Bronze streaming, Silver, Gold, serving en Cassandra | Pendiente (las etapas terminan con estado `pending`) |
+| Diagrama de arquitectura | Versión 1.1 de la primera entrega; se actualiza al cerrar la implementación |

@@ -33,7 +33,7 @@ Requiere **Python 3.10 o superior**. Desde la raíz del repo:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 Si PowerShell bloquea `Activate.ps1` ("la ejecución de scripts está deshabilitada"), no hace falta activar nada:
@@ -44,7 +44,7 @@ usá siempre `.\.venv\Scripts\python` en lugar de `python`.
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate          # en Git Bash: source .venv/Scripts/activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 Para comprobar que quedó bien:
@@ -117,8 +117,8 @@ git push -u origin entrega1/seccion-roles   # abrir PR y que lo revise el otro
 
 | Síntoma | Causa y solución |
 |---|---|
-| `Faltan dependencias…` | El venv no está activado o no se instaló. Activalo y corré `pip install -r requirements.txt`. |
-| `No module named …` pese a haber instalado | `pip` y `python` son de distintos entornos. Usá `python -m pip install -r requirements.txt`. |
+| `Faltan dependencias…` | El venv no está activado o no se instaló. Activalo y corré `pip install -r requirements-dev.txt`. |
+| `No module named …` pese a haber instalado | `pip` y `python` son de distintos entornos. Usá `python -m pip install -r requirements-dev.txt`. |
 | `SyntaxError` en `build_pdf.py` (en la línea `str \| None`) | Python menor a 3.10. Instalá una versión más nueva y recreá el venv. |
 | Error de Typst tipo `unknown variable`, `unexpected argument` | El pandoc incluido genera sintaxis más nueva que la del compilador Typst. Actualizá: `pip install -U typst pypandoc_binary`. |
 | `file not found … img/…png` | La ruta de la imagen en el Markdown es incorrecta (relativa a `docs/entrega1/`, y en Linux/macOS distingue mayúsculas). |

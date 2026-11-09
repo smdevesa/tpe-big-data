@@ -1,12 +1,4 @@
-# Dependencias de Python del proyecto (un solo venv en la raíz: .venv)
-#   pip install -r requirements.txt
-
-# Informe: Markdown -> PDF (tools/docs/build_pdf.py)
-pypandoc_binary>=1.14
-typst>=0.13
-
-# Notebooks de exploración (notebooks/)
-pandas>=2.0
-numpy>=1.24
-matplotlib>=3.7
-jupyterlab>=4.0
+# Dependencias del pipeline (las instala infra/colab_setup.sh)
+pyspark==3.5.3
+cassandra-driver==3.29.2
+pytest==8.3.3

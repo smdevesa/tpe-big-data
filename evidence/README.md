@@ -44,3 +44,13 @@ Los genera el pipeline en cada corrida (`python -m src.pipeline run`); la eviden
 | `join_unmatched`, `masters` | Eventos sin organización o recurso; filas e `ingest_date` de cada maestro |
 | `e1_example` | Los 6 eventos de `(org_cvs4f8cg, 2025-08-17, networking)` y sus totales |
 | `quarantine_samples`, `flag_samples` | Hasta 5 filas por motivo de rechazo, de `flagged` y por flag |
+
+`extra` de `gold.json`:
+
+| Campo | Significado |
+|---|---|
+| `rows`, `orgs`, `series`, `days_per_series` | Tamaño del mart y de las series (org, servicio) usadas por el MAD |
+| `reconciliation` | Costo, requests y eventos en Silver y en Gold; la etapa falla si no coinciden |
+| `anomalies`, `top_anomalies` | Días anómalos (altos, bajos, umbral, series sin referencia) y los 10 de mayor \|z\| |
+| `e1_example` | Fila del mart para `(org_cvs4f8cg, 2025-08-17, networking)` |
+| `processed_at`, `sample` | Momento de la corrida y 3 filas de muestra |

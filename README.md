@@ -84,6 +84,7 @@ Segunda entrega en curso.
 | Entrypoint, logs y evidencia automática | Implementado |
 | Bronze batch (`customers_orgs`, `users`, `resources`, `billing_monthly`) | Implementado y probado en Colab |
 | Bronze streaming (`usage_events`) | Implementado y probado en Colab |
-| Silver (eventos, `customers_orgs`, `resources`, quarantine) | Implementado y probado localmente |
-| Gold, serving en Cassandra | Pendiente (las etapas terminan con estado `pending`) |
+| Silver (eventos, `customers_orgs`, `resources`, quarantine) | Implementado y probado en Colab |
+| Gold (`org_daily_usage_by_service` con anomalías de costo) | Implementado y probado localmente |
+| Serving en Cassandra | Pendiente (la etapa termina con estado `pending`) |
 | Diagrama de arquitectura | Versión 1.1 de la primera entrega; se actualiza al cerrar la implementación |

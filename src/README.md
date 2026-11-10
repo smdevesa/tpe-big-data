@@ -11,13 +11,14 @@ Código del pipeline. Se ejecuta con `python -m src.pipeline` desde la raíz del
 | `spark.py` | `SparkSession` única (UTC, logs de Spark según [`../infra/log4j2.properties`](../infra/log4j2.properties)) |
 | `stages/` | Una etapa por zona: `bronze_batch`, `bronze_stream`, `silver`, `gold`, `serving` |
 | `bronze/` | Fuentes batch (`sources.py`), transformación Landing → Bronze batch (`transforms.py`) y de eventos (`events.py`) |
+| `gold/` | Mart `org_daily_usage_by_service` y z-score robusto de costo (`usage.py`) |
 | `silver/` | Foto vigente de maestros (`masters.py`), reglas y flags de calidad (`quality.py`), features, enriquecimiento y quarantine (`events.py`) |
 
 ## Estado de las etapas
 
 | Etapa | Estado |
 |---|---|
-| `bronze_batch`, `bronze_stream`, `silver` | Implementadas |
-| `gold`, `serving` | Pendientes (terminan con estado `pending`) |
+| `bronze_batch`, `bronze_stream`, `silver`, `gold` | Implementadas |
+| `serving` | Pendiente (terminan con estado `pending`) |
 
 Convención: transformaciones como funciones puras sobre DataFrames (testeables sin escribir a disco); las etapas solo leen, llaman a esas funciones, escriben y registran evidencia.

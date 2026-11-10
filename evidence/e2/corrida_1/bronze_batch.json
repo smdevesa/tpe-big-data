@@ -1,0 +1,290 @@
+{
+  "stage": "bronze_batch",
+  "started_at": "2026-11-10T15:18:20+00:00",
+  "status": "ok",
+  "duration_s": 55.62,
+  "error": null,
+  "inputs": [
+    {
+      "path": "datalake/landing/customers_orgs.csv",
+      "rows": 80,
+      "files": 1,
+      "bytes": 7746
+    },
+    {
+      "path": "datalake/landing/users.csv",
+      "rows": 800,
+      "files": 1,
+      "bytes": 70683
+    },
+    {
+      "path": "datalake/landing/resources.csv",
+      "rows": 400,
+      "files": 1,
+      "bytes": 36703
+    },
+    {
+      "path": "datalake/landing/billing_monthly.csv",
+      "rows": 240,
+      "files": 1,
+      "bytes": 15854
+    }
+  ],
+  "outputs": [
+    {
+      "path": "datalake/bronze/customers_orgs",
+      "rows": 80,
+      "files": 1,
+      "bytes": 6680
+    },
+    {
+      "path": "datalake/quarantine/bronze_customers_orgs",
+      "rows": 0,
+      "exists": false
+    },
+    {
+      "path": "datalake/bronze/users",
+      "rows": 800,
+      "files": 1,
+      "bytes": 23592
+    },
+    {
+      "path": "datalake/quarantine/bronze_users",
+      "rows": 0,
+      "exists": false
+    },
+    {
+      "path": "datalake/bronze/resources",
+      "rows": 400,
+      "files": 1,
+      "bytes": 11668
+    },
+    {
+      "path": "datalake/quarantine/bronze_resources",
+      "rows": 0,
+      "exists": false
+    },
+    {
+      "path": "datalake/bronze/billing_monthly",
+      "rows": 240,
+      "files": 3,
+      "bytes": 17836
+    },
+    {
+      "path": "datalake/quarantine/bronze_billing_monthly",
+      "rows": 0,
+      "exists": false
+    }
+  ],
+  "extra": {
+    "ingest_ts": "2026-11-10T15:18:35+00:00",
+    "customers_orgs": {
+      "landing_rows": 80,
+      "bronze_rows": 80,
+      "quarantine_rows": 0,
+      "exact_duplicates": 0,
+      "quarantine_by_reason": {},
+      "partitions": [
+        "ingest_date=2026-11-10"
+      ],
+      "schema": "struct<org_id:string,org_name:string,industry:string,hq_region:string,plan_tier:string,is_enterprise:boolean,signup_date:date,sales_rep:string,lifecycle_stage:string,marketing_source:string,nps_score:double,source_file:string,ingest_ts:timestamp,ingest_date:date>",
+      "sample": [
+        {
+          "org_id": "org_0lvsnujz",
+          "org_name": "Nova Cloud 45",
+          "industry": "Retail",
+          "hq_region": "us-east",
+          "plan_tier": "standard",
+          "is_enterprise": false,
+          "signup_date": "2025-05-19",
+          "sales_rep": "rep_e",
+          "lifecycle_stage": "prospect",
+          "marketing_source": "event",
+          "nps_score": -1.0,
+          "source_file": "landing/customers_orgs.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        },
+        {
+          "org_id": "org_0lzjjege",
+          "org_name": "Alpha Cloud 77",
+          "industry": "Media",
+          "hq_region": "eu-west",
+          "plan_tier": "standard",
+          "is_enterprise": false,
+          "signup_date": "2025-07-02",
+          "sales_rep": "rep_e",
+          "lifecycle_stage": "active",
+          "marketing_source": "referral",
+          "nps_score": -7.0,
+          "source_file": "landing/customers_orgs.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        },
+        {
+          "org_id": "org_1n13jcat",
+          "org_name": "Nimbus Tech 64",
+          "industry": "Healthcare",
+          "hq_region": "us-east",
+          "plan_tier": "free",
+          "is_enterprise": true,
+          "signup_date": "2025-07-02",
+          "sales_rep": "rep_a",
+          "lifecycle_stage": "active",
+          "marketing_source": "event",
+          "nps_score": 34.0,
+          "source_file": "landing/customers_orgs.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        }
+      ]
+    },
+    "users": {
+      "landing_rows": 800,
+      "bronze_rows": 800,
+      "quarantine_rows": 0,
+      "exact_duplicates": 0,
+      "quarantine_by_reason": {},
+      "partitions": [
+        "ingest_date=2026-11-10"
+      ],
+      "schema": "struct<user_id:string,org_id:string,email:string,role:string,active:boolean,created_at:date,last_login:date,source_file:string,ingest_ts:timestamp,ingest_date:date>",
+      "sample": [
+        {
+          "user_id": "user_01nouhtc",
+          "org_id": "org_1swjckjl",
+          "email": "user_01nouhtc@example.com",
+          "role": "developer",
+          "active": true,
+          "created_at": "2025-07-12",
+          "last_login": "2025-06-05",
+          "source_file": "landing/users.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        },
+        {
+          "user_id": "user_0224wk0y",
+          "org_id": "org_trp0j43d",
+          "email": "user_0224wk0y@example.com",
+          "role": "admin",
+          "active": true,
+          "created_at": "2025-06-17",
+          "last_login": "2025-07-29",
+          "source_file": "landing/users.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        },
+        {
+          "user_id": "user_049enulq",
+          "org_id": "org_253j2d54",
+          "email": "user_049enulq@example.com",
+          "role": "developer",
+          "active": true,
+          "created_at": "2025-05-30",
+          "last_login": "2025-07-23",
+          "source_file": "landing/users.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        }
+      ]
+    },
+    "resources": {
+      "landing_rows": 400,
+      "bronze_rows": 400,
+      "quarantine_rows": 0,
+      "exact_duplicates": 0,
+      "quarantine_by_reason": {},
+      "partitions": [
+        "ingest_date=2026-11-10"
+      ],
+      "schema": "struct<resource_id:string,org_id:string,service:string,region:string,created_at:date,state:string,tags_json:string,source_file:string,ingest_ts:timestamp,ingest_date:date>",
+      "sample": [
+        {
+          "resource_id": "res_00v3sfav",
+          "org_id": "org_pht0hl9x",
+          "service": "analytics",
+          "region": "us-east",
+          "created_at": "2025-07-07",
+          "state": "stopped",
+          "tags_json": "[\"backup:daily\", \"env:dev\"]",
+          "source_file": "landing/resources.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        },
+        {
+          "resource_id": "res_019ydq3n",
+          "org_id": "org_53lc58dr",
+          "service": "analytics",
+          "region": "ap-northeast",
+          "created_at": "2025-06-26",
+          "state": "running",
+          "tags_json": "[\"backup:daily\"]",
+          "source_file": "landing/resources.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        },
+        {
+          "resource_id": "res_02grxpud",
+          "org_id": "org_pseimvih",
+          "service": "storage",
+          "region": "us-west",
+          "created_at": "2025-05-12",
+          "state": "stopped",
+          "tags_json": "[\"team:ml\"]",
+          "source_file": "landing/resources.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z",
+          "ingest_date": "2026-11-10"
+        }
+      ]
+    },
+    "billing_monthly": {
+      "landing_rows": 240,
+      "bronze_rows": 240,
+      "quarantine_rows": 0,
+      "exact_duplicates": 0,
+      "quarantine_by_reason": {},
+      "partitions": [
+        "month=2025-06-01",
+        "month=2025-07-01",
+        "month=2025-08-01"
+      ],
+      "schema": "struct<invoice_id:string,org_id:string,month:date,subtotal:decimal(12,2),credits:decimal(12,2),taxes:decimal(12,2),currency:string,exchange_rate_to_usd:decimal(12,6),source_file:string,ingest_ts:timestamp>",
+      "sample": [
+        {
+          "invoice_id": "inv_03ivwack",
+          "org_id": "org_hv3a3zmf",
+          "month": "2025-06-01",
+          "subtotal": 350.32,
+          "taxes": 73.57,
+          "currency": "ARS",
+          "exchange_rate_to_usd": 0.00158,
+          "source_file": "landing/billing_monthly.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z"
+        },
+        {
+          "invoice_id": "inv_07uj4fqk",
+          "org_id": "org_1n13jcat",
+          "month": "2025-06-01",
+          "subtotal": 1079.91,
+          "credits": 2.3,
+          "taxes": 226.78,
+          "currency": "ARS",
+          "exchange_rate_to_usd": 0.00153,
+          "source_file": "landing/billing_monthly.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z"
+        },
+        {
+          "invoice_id": "inv_081i1ccm",
+          "org_id": "org_om5igqpk",
+          "month": "2025-08-01",
+          "subtotal": 1033.34,
+          "taxes": 217.0,
+          "currency": "USD",
+          "exchange_rate_to_usd": 0.9616,
+          "source_file": "landing/billing_monthly.csv",
+          "ingest_ts": "2026-11-10T15:18:35.000Z"
+        }
+      ]
+    }
+  }
+}

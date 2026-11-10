@@ -1,0 +1,239 @@
+{
+  "stage": "gold",
+  "started_at": "2026-11-10T15:20:52+00:00",
+  "status": "ok",
+  "duration_s": 12.64,
+  "error": null,
+  "inputs": [
+    {
+      "path": "datalake/silver/usage_events",
+      "rows": null,
+      "files": 60,
+      "bytes": 3022603
+    }
+  ],
+  "outputs": [
+    {
+      "path": "datalake/gold/org_daily_usage_by_service",
+      "rows": 11050,
+      "files": 60,
+      "bytes": 1060624
+    }
+  ],
+  "extra": {
+    "rows": 11050,
+    "orgs": 80,
+    "series": 262,
+    "days_per_series": {
+      "min": 24,
+      "median": 39.0,
+      "max": 60
+    },
+    "processed_at": "2026-11-10T15:20:52+00:00",
+    "reconciliation": {
+      "cost_usd": {
+        "silver": 147433.98,
+        "gold": 147433.98,
+        "ok": true
+      },
+      "requests": {
+        "silver": 2294079.0,
+        "gold": 2294079.0,
+        "ok": true
+      },
+      "events": {
+        "silver": 43200,
+        "gold": 43200,
+        "ok": true
+      }
+    },
+    "anomalies": {
+      "total": 134,
+      "high": 124,
+      "low": 10,
+      "series_without_reference": 0,
+      "threshold": 3.5
+    },
+    "top_anomalies": [
+      {
+        "usage_date": "2025-07-03",
+        "org_id": "org_okep7y6w",
+        "service": "compute",
+        "daily_cost_usd": 202.646,
+        "cost_median_usd": 11.1426,
+        "cost_mad_usd": 2.7475,
+        "cost_robust_z": 47.0133,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-07-09",
+        "org_id": "org_x7eedtjv",
+        "service": "compute",
+        "daily_cost_usd": 311.255,
+        "cost_median_usd": 13.8981,
+        "cost_mad_usd": 4.3827,
+        "cost_robust_z": 45.7634,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-08-07",
+        "org_id": "org_okep7y6w",
+        "service": "compute",
+        "daily_cost_usd": 191.8968,
+        "cost_median_usd": 11.1426,
+        "cost_mad_usd": 2.7475,
+        "cost_robust_z": 44.3744,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-07-05",
+        "org_id": "org_w3zp08j3",
+        "service": "networking",
+        "daily_cost_usd": 27.4203,
+        "cost_median_usd": 1.4849,
+        "cost_mad_usd": 0.4944,
+        "cost_robust_z": 35.3831,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-07-16",
+        "org_id": "org_w3zp08j3",
+        "service": "networking",
+        "daily_cost_usd": 26.4157,
+        "cost_median_usd": 1.4849,
+        "cost_mad_usd": 0.4944,
+        "cost_robust_z": 34.0126,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-08-23",
+        "org_id": "org_x7eedtjv",
+        "service": "compute",
+        "daily_cost_usd": 211.2481,
+        "cost_median_usd": 13.8981,
+        "cost_mad_usd": 4.3827,
+        "cost_robust_z": 30.3723,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-08-25",
+        "org_id": "org_pht0hl9x",
+        "service": "analytics",
+        "daily_cost_usd": 257.042,
+        "cost_median_usd": 14.6066,
+        "cost_mad_usd": 5.4627,
+        "cost_robust_z": 29.9344,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-07-17",
+        "org_id": "org_874frhoc",
+        "service": "networking",
+        "daily_cost_usd": 27.651,
+        "cost_median_usd": 1.708,
+        "cost_mad_usd": 0.6065,
+        "cost_robust_z": 28.8517,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-07-20",
+        "org_id": "org_d14ve92m",
+        "service": "analytics",
+        "daily_cost_usd": 181.7988,
+        "cost_median_usd": 10.701,
+        "cost_mad_usd": 4.071,
+        "cost_robust_z": 28.3482,
+        "events": 3
+      },
+      {
+        "usage_date": "2025-07-17",
+        "org_id": "org_pnsm43d8",
+        "service": "storage",
+        "daily_cost_usd": 56.6704,
+        "cost_median_usd": 3.5804,
+        "cost_mad_usd": 1.291,
+        "cost_robust_z": 27.7376,
+        "events": 3
+      }
+    ],
+    "example": [
+      {
+        "usage_date": "2025-08-17",
+        "org_id": "org_cvs4f8cg",
+        "service": "networking",
+        "org_name": "Zenith Digital 28",
+        "plan_tier": "standard",
+        "daily_cost_usd": 4.836,
+        "requests": 376.0,
+        "cpu_hours": 1.3656,
+        "storage_gb_hours": 10.5558,
+        "carbon_kg": 0.0776,
+        "events": 6,
+        "events_missing_value": 1,
+        "negative_cost_events": 0,
+        "series_days": 48,
+        "cost_robust_z": 0.9996,
+        "is_cost_anomaly": false,
+        "cost_median_usd": 2.771,
+        "cost_mad_usd": 1.3935
+      }
+    ],
+    "sample": [
+      {
+        "usage_date": "2025-07-03",
+        "org_id": "org_0lvsnujz",
+        "service": "analytics",
+        "org_name": "Nova Cloud 45",
+        "plan_tier": "standard",
+        "daily_cost_usd": 8.8739,
+        "requests": 116.0,
+        "cpu_hours": 4.6168,
+        "storage_gb_hours": 12.7808,
+        "events": 3,
+        "events_missing_value": 0,
+        "negative_cost_events": 0,
+        "series_days": 50,
+        "cost_robust_z": -0.6106,
+        "is_cost_anomaly": false,
+        "cost_median_usd": 17.0577,
+        "cost_mad_usd": 9.0405
+      },
+      {
+        "usage_date": "2025-07-03",
+        "org_id": "org_0lvsnujz",
+        "service": "database",
+        "org_name": "Nova Cloud 45",
+        "plan_tier": "standard",
+        "daily_cost_usd": 0.5723,
+        "cpu_hours": 1.7515,
+        "storage_gb_hours": 14.7891,
+        "events": 3,
+        "events_missing_value": 0,
+        "negative_cost_events": 0,
+        "series_days": 52,
+        "cost_robust_z": -1.5382,
+        "is_cost_anomaly": false,
+        "cost_median_usd": 9.8951,
+        "cost_mad_usd": 4.0881
+      },
+      {
+        "usage_date": "2025-07-03",
+        "org_id": "org_0lvsnujz",
+        "service": "storage",
+        "org_name": "Nova Cloud 45",
+        "plan_tier": "standard",
+        "daily_cost_usd": 5.5542,
+        "requests": 255.0,
+        "storage_gb_hours": 4.6668,
+        "events": 3,
+        "events_missing_value": 0,
+        "negative_cost_events": 0,
+        "series_days": 54,
+        "cost_robust_z": 0.1053,
+        "is_cost_anomaly": false,
+        "cost_median_usd": 5.2266,
+        "cost_mad_usd": 2.0989
+      }
+    ]
+  }
+}

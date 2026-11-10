@@ -1,0 +1,112 @@
+{
+  "stage": "bronze_stream",
+  "started_at": "2026-11-10T15:25:29+00:00",
+  "status": "ok",
+  "duration_s": 17.23,
+  "error": null,
+  "inputs": [
+    {
+      "path": "datalake/landing/usage_events_stream",
+      "rows": 0,
+      "files": 120,
+      "bytes": 12927515
+    }
+  ],
+  "outputs": [
+    {
+      "path": "datalake/bronze/usage_events",
+      "rows": 43200,
+      "files": 720,
+      "bytes": 7216202
+    },
+    {
+      "path": "datalake/_checkpoints/bronze_usage_events",
+      "rows": null,
+      "files": 141,
+      "bytes": 1939811
+    }
+  ],
+  "extra": {
+    "files": 120,
+    "watermark": "61 days",
+    "max_files_per_trigger": 10,
+    "micro_batches": 0,
+    "input_rows": 0,
+    "written_rows": 0,
+    "duplicates_dropped": 0,
+    "dropped_by_watermark": 0,
+    "bronze_rows": 43200,
+    "schema_versions": {
+      "1": 10800,
+      "2": 32400
+    },
+    "cast_errors": {},
+    "corrupt_rows": 0,
+    "null_event_id": 0,
+    "null_event_ts": 0,
+    "late_arrivals": 39599,
+    "late_arrivals_pct": 91.7,
+    "max_lateness": "59 d 23 h 54 min",
+    "partitions": 60,
+    "files_written": 720,
+    "sample": [
+      {
+        "event_id": "evt_000jjr97vn26",
+        "event_ts": "2025-08-04T05:32:00.000Z",
+        "org_id": "org_1n13jcat",
+        "resource_id": "res_03njbcfa",
+        "service": "compute",
+        "region": "us-east",
+        "metric": "cpu_hours",
+        "value": 0.0,
+        "value_raw": "0.0",
+        "unit": "hours",
+        "cost_usd_increment": 0.0,
+        "schema_version": 2,
+        "carbon_kg": 0.0,
+        "cast_errors": [],
+        "source_file": "landing/usage_events_stream/events_part_0006.jsonl",
+        "ingest_ts": "2026-11-10T15:19:18.903Z",
+        "event_date": "2025-08-04"
+      },
+      {
+        "event_id": "evt_001js5jalyyb",
+        "event_ts": "2025-07-23T09:53:00.000Z",
+        "org_id": "org_ly8ozcyw",
+        "resource_id": "res_8sz7iwdl",
+        "service": "genai",
+        "region": "ap-northeast",
+        "metric": "storage_gb_hours",
+        "value": 6.4219,
+        "value_raw": "6.4219",
+        "unit": "gb_hours",
+        "cost_usd_increment": 0.6472,
+        "schema_version": 2,
+        "carbon_kg": 0.001284,
+        "genai_tokens": 490,
+        "cast_errors": [],
+        "source_file": "landing/usage_events_stream/events_part_0114.jsonl",
+        "ingest_ts": "2026-11-10T15:19:59.777Z",
+        "event_date": "2025-07-23"
+      },
+      {
+        "event_id": "evt_002ckpxqp6v4",
+        "event_ts": "2025-07-06T19:03:00.000Z",
+        "org_id": "org_1swjckjl",
+        "resource_id": "res_27exvda4",
+        "service": "database",
+        "region": "us-east",
+        "metric": "requests",
+        "value": 110.0,
+        "value_raw": "110.0",
+        "unit": "count",
+        "cost_usd_increment": 6.114,
+        "schema_version": 1,
+        "cast_errors": [],
+        "source_file": "landing/usage_events_stream/events_part_0065.jsonl",
+        "ingest_ts": "2026-11-10T15:19:43.386Z",
+        "event_date": "2025-07-06"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+Consulta 1: costos y requests diarios por organización y servicio en un rango de fechas.
+SELECT usage_date, daily_cost_usd, requests, events, events_missing_value, is_cost_anomaly, cost_robust_z FROM cloud_analytics.usage_by_org_service_day WHERE org_id = ? AND service = ? AND usage_date >= ? AND usage_date <= ?
+parámetros: ['org_cvs4f8cg', 'networking', '2025-08-11', '2025-08-17']
+
+usage_date | daily_cost_usd | requests | events | events_missing_value | is_cost_anomaly | cost_robust_z
+2025-08-17 | 4.836          | 376.0    | 6      | 1                    | False           | 0.9996       
+2025-08-15 | 0.3375         | None     | 3      | 0                    | False           | -1.1779      
+2025-08-14 | 2.8991         | 325.0    | 6      | 0                    | False           | 0.062        
+2025-08-13 | 2.3951         | 238.0    | 3      | 0                    | False           | -0.182       
+2025-08-12 | 1.3664         | 125.0    | 3      | 0                    | False           | -0.6799      
+2025-08-11 | 0.3315         | None     | 6      | 0                    | False           | -1.1808      
+(6 filas, 19.2 ms)
+
+
+Consulta 2: top-N servicios por costo acumulado en los últimos 14 días para una organización.
+SELECT rank, service, cost_14d_usd, days_with_usage, window_start, as_of_date FROM cloud_analytics.top_services_14d WHERE org_id = ? AND as_of_date = ? LIMIT ?
+parámetros: ['org_cvs4f8cg', '2025-08-31', 3]
+
+rank | service   | cost_14d_usd | days_with_usage | window_start | as_of_date
+1    | genai     | 137.0204     | 7               | 2025-08-18   | 2025-08-31
+2    | analytics | 85.8359      | 5               | 2025-08-18   | 2025-08-31
+3    | compute   | 58.0855      | 6               | 2025-08-18   | 2025-08-31
+(3 filas, 11.7 ms)
+

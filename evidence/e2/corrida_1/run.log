@@ -1,0 +1,65 @@
+2026-11-09T20:59:59Z | INFO    | src.pipeline             | comando: run --stage bronze_batch
+2026-11-09T21:00:00Z | INFO    | src.pipeline             | entorno: Python 3.13.7 | java version "21.0.6" 2025-01-21 LTS | PySpark 4.2.1
+2026-11-09T21:00:00Z | INFO    | src.evidence             | etapa bronze_batch: inicio
+2026-11-09T21:00:03Z | INFO    | src.spark                | SparkSession 4.2.1 iniciada (master=local[*])
+2026-11-09T21:00:07Z | INFO    | src.evidence             | entrada datalake/landing/customers_orgs.csv: 80 filas, 1 archivos, 7746 bytes
+2026-11-09T21:00:07Z | INFO    | src.evidence             | salida datalake/bronze/customers_orgs: 80 filas, 1 archivos, 6681 bytes
+2026-11-09T21:00:07Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_customers_orgs: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:09Z | INFO    | src.evidence             | entrada datalake/landing/users.csv: 800 filas, 1 archivos, 70683 bytes
+2026-11-09T21:00:09Z | INFO    | src.evidence             | salida datalake/bronze/users: 800 filas, 1 archivos, 23597 bytes
+2026-11-09T21:00:09Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_users: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:10Z | INFO    | src.evidence             | entrada datalake/landing/resources.csv: 400 filas, 1 archivos, 36703 bytes
+2026-11-09T21:00:10Z | INFO    | src.evidence             | salida datalake/bronze/resources: 400 filas, 1 archivos, 11675 bytes
+2026-11-09T21:00:10Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_resources: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:11Z | INFO    | src.evidence             | entrada datalake/landing/billing_monthly.csv: 240 filas, 1 archivos, 15854 bytes
+2026-11-09T21:00:11Z | INFO    | src.evidence             | salida datalake/bronze/billing_monthly: 240 filas, 3 archivos, 17820 bytes
+2026-11-09T21:00:11Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_billing_monthly: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:11Z | INFO    | src.evidence             | etapa bronze_batch: ok en 11.48s, evidencia en evidence/e2/bronze_batch.json
+2026-11-09T21:00:11Z | INFO    | src.pipeline             | corrida completa: bronze_batch
+2026-11-09T21:00:24Z | INFO    | src.pipeline             | comando: run --stage bronze_batch
+2026-11-09T21:00:24Z | INFO    | src.pipeline             | entorno: Python 3.13.7 | java version "21.0.6" 2025-01-21 LTS | PySpark 4.2.1
+2026-11-09T21:00:24Z | INFO    | src.evidence             | etapa bronze_batch: inicio
+2026-11-09T21:00:28Z | INFO    | src.spark                | SparkSession 4.2.1 iniciada (master=local[*])
+2026-11-09T21:00:32Z | INFO    | src.evidence             | entrada datalake/landing/customers_orgs.csv: 80 filas, 1 archivos, 7746 bytes
+2026-11-09T21:00:32Z | INFO    | src.evidence             | salida datalake/bronze/customers_orgs: 80 filas, 1 archivos, 6681 bytes
+2026-11-09T21:00:32Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_customers_orgs: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:33Z | INFO    | src.evidence             | entrada datalake/landing/users.csv: 800 filas, 1 archivos, 70683 bytes
+2026-11-09T21:00:33Z | INFO    | src.evidence             | salida datalake/bronze/users: 800 filas, 2 archivos, 47194 bytes
+2026-11-09T21:00:33Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_users: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:34Z | INFO    | src.evidence             | entrada datalake/landing/resources.csv: 400 filas, 1 archivos, 36703 bytes
+2026-11-09T21:00:34Z | INFO    | src.evidence             | salida datalake/bronze/resources: 400 filas, 1 archivos, 11675 bytes
+2026-11-09T21:00:34Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_resources: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:36Z | INFO    | src.evidence             | entrada datalake/landing/billing_monthly.csv: 240 filas, 1 archivos, 15854 bytes
+2026-11-09T21:00:36Z | INFO    | src.evidence             | salida datalake/bronze/billing_monthly: 240 filas, 3 archivos, 17820 bytes
+2026-11-09T21:00:36Z | INFO    | src.evidence             | salida datalake/quarantine/bronze_billing_monthly: 0 filas, 0 archivos, 0 bytes
+2026-11-09T21:00:36Z | INFO    | src.evidence             | etapa bronze_batch: ok en 11.46s, evidencia en evidence/e2/bronze_batch.json
+2026-11-09T21:00:36Z | INFO    | src.pipeline             | corrida completa: bronze_batch
+2026-11-10T15:18:20Z | INFO    | src.pipeline             | comando: run
+2026-11-10T15:18:20Z | INFO    | src.pipeline             | entorno: Python 3.13.18 | openjdk version "17.0.21.0.3" 2026-10-24 | PySpark 4.2.1
+2026-11-10T15:18:20Z | INFO    | src.evidence             | etapa bronze_batch: inicio
+2026-11-10T15:18:35Z | INFO    | src.spark                | SparkSession 4.2.1 iniciada (master=local[*])
+2026-11-10T15:18:57Z | INFO    | src.stages.bronze_batch  | customers_orgs: 80 landing -> 80 bronze | 0 quarantine | 0 duplicados exactos | ingest_date=2026-11-10
+2026-11-10T15:19:05Z | INFO    | src.stages.bronze_batch  | users: 800 landing -> 800 bronze | 0 quarantine | 0 duplicados exactos | ingest_date=2026-11-10
+2026-11-10T15:19:10Z | INFO    | src.stages.bronze_batch  | resources: 400 landing -> 400 bronze | 0 quarantine | 0 duplicados exactos | ingest_date=2026-11-10
+2026-11-10T15:19:15Z | INFO    | src.stages.bronze_batch  | billing_monthly: 240 landing -> 240 bronze | 0 quarantine | 0 duplicados exactos | month=2025-06-01, month=2025-07-01, month=2025-08-01
+2026-11-10T15:19:16Z | INFO    | src.evidence             | etapa bronze_batch: ok en 55.62s, evidencia en evidence/e2/bronze_batch.json
+2026-11-10T15:19:16Z | INFO    | src.evidence             | etapa bronze_stream: inicio
+2026-11-10T15:20:18Z | INFO    | src.stages.bronze_stream | usage_events: 120 archivos, 12 micro-lotes, 43200 leídos -> 43200 escritos (Bronze total 43200) | 0 duplicados | 0 descartados por watermark | 39599 fuera de orden (91.7%, atraso máximo 59 d 23 h 54 min)
+2026-11-10T15:20:18Z | INFO    | src.evidence             | etapa bronze_stream: ok en 62.12s, evidencia en evidence/e2/bronze_stream.json
+2026-11-10T15:20:18Z | INFO    | src.evidence             | etapa silver: inicio
+2026-11-10T15:20:45Z | INFO    | src.stages.silver        | usage_events: 43200 bronze -> 43200 silver | 0 rechazados | 211 flagged | unit nula con value: 2038 detectados, 2038 resueltos
+2026-11-10T15:20:45Z | INFO    | src.stages.silver        | flags: cost_anomaly=211, value_missing=877, unit_inferred=2075, before_resource_created=7371, unknown_schema_version=0
+2026-11-10T15:20:45Z | INFO    | src.stages.silver        | ejemplo ('org_cvs4f8cg', '2025-08-17', 'networking'): 6 eventos, 4.8360 USD, 376.0 requests, 1 sin value
+2026-11-10T15:20:52Z | INFO    | src.evidence             | etapa silver: ok en 33.71s, evidencia en evidence/e2/silver.json
+2026-11-10T15:20:52Z | INFO    | src.evidence             | etapa gold: inicio
+2026-11-10T15:21:04Z | INFO    | src.stages.gold          | org_daily_usage_by_service: 11050 filas (80 orgs, 262 series de 24-60 días) | concilia con Silver: 147433.98 USD, 2294079 requests, 43200 eventos
+2026-11-10T15:21:04Z | INFO    | src.stages.gold          | anomalías de costo (|z| > 3.5): 134 días (124 altos, 10 bajos), 0 series sin referencia
+2026-11-10T15:21:04Z | INFO    | src.stages.gold          | ejemplo ('org_cvs4f8cg', '2025-08-17', 'networking'): 4.8360 USD, 376.0 requests, 6 eventos, 1 sin value
+2026-11-10T15:21:04Z | INFO    | src.evidence             | etapa gold: ok en 12.64s, evidencia en evidence/e2/gold.json
+2026-11-10T15:21:04Z | INFO    | src.evidence             | etapa serving: inicio
+2026-11-10T15:21:26Z | INFO    | src.stages.serving       | cloud_analytics.usage_by_org_service_day: 11050 filas cargadas en 17.1s, 11050 en Cassandra
+2026-11-10T15:21:46Z | INFO    | src.stages.serving       | cloud_analytics.top_services_14d: 15599 filas cargadas en 16.5s, 15599 en Cassandra
+2026-11-10T15:21:46Z | INFO    | src.stages.serving       | Consulta 1 -> 6 filas en 19.2 ms
+2026-11-10T15:21:46Z | INFO    | src.stages.serving       | Consulta 2 -> 3 filas en 11.7 ms
+2026-11-10T15:21:47Z | INFO    | src.evidence             | etapa serving: ok en 42.36s, evidencia en evidence/e2/serving.json
+2026-11-10T15:21:47Z | INFO    | src.pipeline             | corrida completa: bronze_batch -> bronze_stream -> silver -> gold -> serving

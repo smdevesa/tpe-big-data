@@ -1,0 +1,449 @@
+{
+  "stage": "silver",
+  "started_at": "2026-11-10T15:25:47+00:00",
+  "status": "ok",
+  "duration_s": 44.7,
+  "error": null,
+  "inputs": [
+    {
+      "path": "datalake/bronze/usage_events",
+      "rows": 43200,
+      "files": 720,
+      "bytes": 7216202
+    }
+  ],
+  "outputs": [
+    {
+      "path": "datalake/silver/usage_events",
+      "rows": 43200,
+      "files": 60,
+      "bytes": 3022603
+    },
+    {
+      "path": "datalake/quarantine/silver_usage_events",
+      "rows": 211,
+      "files": 1,
+      "bytes": 26208
+    },
+    {
+      "path": "datalake/silver/customers_orgs",
+      "rows": 80,
+      "files": 1,
+      "bytes": 6984
+    },
+    {
+      "path": "datalake/silver/resources",
+      "rows": 400,
+      "files": 1,
+      "bytes": 13007
+    }
+  ],
+  "extra": {
+    "bronze_rows": 43200,
+    "silver_rows": 43200,
+    "rejected_rows": 0,
+    "flagged_rows": 211,
+    "rules": {
+      "missing_event_id": 0,
+      "duplicate_event_id": 0,
+      "malformed_event": 0,
+      "invalid_timestamp": 0,
+      "missing_org_id": 0,
+      "missing_service": 0,
+      "missing_unit": 0
+    },
+    "unit_missing_with_value": {
+      "detected": 2038,
+      "resolved": 2038
+    },
+    "flags": {
+      "cost_anomaly": 211,
+      "value_missing": 877,
+      "unit_inferred": 2075,
+      "before_resource_created": 7371,
+      "unknown_schema_version": 0
+    },
+    "features": {
+      "requests": {
+        "rows": 19113,
+        "sum": 2294079.0
+      },
+      "cpu_hours": {
+        "rows": 10497,
+        "sum": 19833.0377
+      },
+      "storage_gb_hours": {
+        "rows": 12713,
+        "sum": 131288.1333
+      },
+      "genai_tokens": {
+        "rows": 3132,
+        "sum": 2558359.0
+      },
+      "carbon_kg": {
+        "rows": 32400,
+        "sum": 367.5024
+      }
+    },
+    "join_unmatched": {
+      "org_id": 0,
+      "resource_id": 0
+    },
+    "masters": {
+      "customers_orgs": {
+        "rows": 80,
+        "ingest_date": "2026-11-10"
+      },
+      "resources": {
+        "rows": 400,
+        "ingest_date": "2026-11-10"
+      }
+    },
+    "example": {
+      "key": {
+        "org_id": "org_cvs4f8cg",
+        "date": "2025-08-17",
+        "service": "networking"
+      },
+      "totals": {
+        "events": 6,
+        "cost_usd": 4.836,
+        "requests": 376.0,
+        "value_missing": 1
+      },
+      "events": [
+        {
+          "event_id": "evt_nwlh5boz2guf",
+          "event_date": "2025-08-17",
+          "org_id": "org_cvs4f8cg",
+          "service": "networking",
+          "metric": "requests",
+          "unit": "count",
+          "cost_usd_increment": 0.9561,
+          "value_missing": true
+        },
+        {
+          "event_id": "evt_2ybvjwo4sza9",
+          "event_date": "2025-08-17",
+          "org_id": "org_cvs4f8cg",
+          "service": "networking",
+          "metric": "requests",
+          "value": 131.0,
+          "unit": "count",
+          "cost_usd_increment": 1.2812,
+          "value_missing": false
+        },
+        {
+          "event_id": "evt_sh6d7f7gddi4",
+          "event_date": "2025-08-17",
+          "org_id": "org_cvs4f8cg",
+          "service": "networking",
+          "metric": "requests",
+          "value": 135.0,
+          "unit": "count",
+          "cost_usd_increment": 1.3298,
+          "value_missing": false
+        },
+        {
+          "event_id": "evt_jcgzqonsh49v",
+          "event_date": "2025-08-17",
+          "org_id": "org_cvs4f8cg",
+          "service": "networking",
+          "metric": "storage_gb_hours",
+          "value": 10.5558,
+          "unit": "gb_hours",
+          "cost_usd_increment": 0.1253,
+          "value_missing": false
+        },
+        {
+          "event_id": "evt_901r3mcyiv4q",
+          "event_date": "2025-08-17",
+          "org_id": "org_cvs4f8cg",
+          "service": "networking",
+          "metric": "requests",
+          "value": 110.0,
+          "unit": "count",
+          "cost_usd_increment": 1.1302,
+          "value_missing": false
+        },
+        {
+          "event_id": "evt_p7xa2wz22lke",
+          "event_date": "2025-08-17",
+          "org_id": "org_cvs4f8cg",
+          "service": "networking",
+          "metric": "cpu_hours",
+          "value": 1.3656,
+          "unit": "hours",
+          "cost_usd_increment": 0.0134,
+          "value_missing": false
+        }
+      ]
+    },
+    "quarantine_samples": {
+      "rejected": {},
+      "flagged": [
+        {
+          "source": "usage_events",
+          "action": "flagged",
+          "reason": "cost_below_threshold",
+          "reasons": [
+            "cost_below_threshold"
+          ],
+          "raw": "{\"event_id\":\"evt_0mv15gk8xuga\",\"event_ts\":\"2025-08-08T23:47:00.000Z\",\"org_id\":\"org_53lc58dr\",\"resource_id\":\"res_flq8xpa9\",\"service\":\"genai\",\"region\":\"us-east\",\"metric\":\"cpu_hours\",\"value\":1.5755,\"value_raw\":\"1.5755\",\"unit\":\"hours\",\"cost_usd_increment\":-0.1854,\"schema_version\":2,\"carbon_kg\":3.15E-4,\"genai_tokens\":67,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0014.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:25.322Z\",\"event_date\":\"2025-08-08\"}",
+          "source_file": "landing/usage_events_stream/events_part_0014.jsonl",
+          "ingest_ts": "2026-11-10T15:19:25.322Z"
+        },
+        {
+          "source": "usage_events",
+          "action": "flagged",
+          "reason": "cost_below_threshold",
+          "reasons": [
+            "cost_below_threshold"
+          ],
+          "raw": "{\"event_id\":\"evt_0s3r8qeziv84\",\"event_ts\":\"2025-07-08T00:00:00.000Z\",\"org_id\":\"org_5lxo6qji\",\"resource_id\":\"res_ykis11d2\",\"service\":\"database\",\"region\":\"eu-central\",\"metric\":\"requests\",\"value\":121.0,\"value_raw\":\"121.0\",\"unit\":\"count\",\"cost_usd_increment\":-5.1627,\"schema_version\":1,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0071.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:47.463Z\",\"event_date\":\"2025-07-08\"}",
+          "source_file": "landing/usage_events_stream/events_part_0071.jsonl",
+          "ingest_ts": "2026-11-10T15:19:47.463Z"
+        },
+        {
+          "source": "usage_events",
+          "action": "flagged",
+          "reason": "cost_below_threshold",
+          "reasons": [
+            "cost_below_threshold"
+          ],
+          "raw": "{\"event_id\":\"evt_11kvg2do2pr9\",\"event_ts\":\"2025-07-09T14:56:00.000Z\",\"org_id\":\"org_teiyzcot\",\"resource_id\":\"res_kh0uhk7x\",\"service\":\"compute\",\"region\":\"us-west\",\"metric\":\"requests\",\"value\":114.0,\"value_raw\":\"114.0\",\"unit\":\"count\",\"cost_usd_increment\":-5.4733,\"schema_version\":1,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0081.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:50.845Z\",\"event_date\":\"2025-07-09\"}",
+          "source_file": "landing/usage_events_stream/events_part_0081.jsonl",
+          "ingest_ts": "2026-11-10T15:19:50.845Z"
+        },
+        {
+          "source": "usage_events",
+          "action": "flagged",
+          "reason": "cost_below_threshold",
+          "reasons": [
+            "cost_below_threshold"
+          ],
+          "raw": "{\"event_id\":\"evt_3c58kzx7o2ud\",\"event_ts\":\"2025-08-29T19:19:00.000Z\",\"org_id\":\"org_gv0e38da\",\"resource_id\":\"res_rupflfcy\",\"service\":\"storage\",\"region\":\"us-west\",\"metric\":\"cpu_hours\",\"value\":1.3367,\"value_raw\":\"1.3367\",\"unit\":\"hours\",\"cost_usd_increment\":-0.0325,\"schema_version\":2,\"carbon_kg\":2.67E-4,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0066.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:43.386Z\",\"event_date\":\"2025-08-29\"}",
+          "source_file": "landing/usage_events_stream/events_part_0066.jsonl",
+          "ingest_ts": "2026-11-10T15:19:43.386Z"
+        },
+        {
+          "source": "usage_events",
+          "action": "flagged",
+          "reason": "cost_below_threshold",
+          "reasons": [
+            "cost_below_threshold"
+          ],
+          "raw": "{\"event_id\":\"evt_3hma7yqhu457\",\"event_ts\":\"2025-07-29T13:22:00.000Z\",\"org_id\":\"org_afeyuhz1\",\"resource_id\":\"res_6atvd1xe\",\"service\":\"compute\",\"region\":\"ap-northeast\",\"metric\":\"requests\",\"value\":123.0,\"value_raw\":\"123.0\",\"unit\":\"count\",\"cost_usd_increment\":-10.7267,\"schema_version\":2,\"carbon_kg\":0.0246,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0075.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:47.463Z\",\"event_date\":\"2025-07-29\"}",
+          "source_file": "landing/usage_events_stream/events_part_0075.jsonl",
+          "ingest_ts": "2026-11-10T15:19:47.463Z"
+        }
+      ]
+    },
+    "flag_samples": {
+      "cost_anomaly": [
+        {
+          "event_id": "evt_0mv15gk8xuga",
+          "event_date": "2025-08-08",
+          "org_id": "org_53lc58dr",
+          "service": "genai",
+          "metric": "cpu_hours",
+          "value": 1.5755,
+          "unit": "hours",
+          "cost_usd_increment": -0.1854
+        },
+        {
+          "event_id": "evt_0s3r8qeziv84",
+          "event_date": "2025-07-08",
+          "org_id": "org_5lxo6qji",
+          "service": "database",
+          "metric": "requests",
+          "value": 121.0,
+          "unit": "count",
+          "cost_usd_increment": -5.1627
+        },
+        {
+          "event_id": "evt_11kvg2do2pr9",
+          "event_date": "2025-07-09",
+          "org_id": "org_teiyzcot",
+          "service": "compute",
+          "metric": "requests",
+          "value": 114.0,
+          "unit": "count",
+          "cost_usd_increment": -5.4733
+        },
+        {
+          "event_id": "evt_3c58kzx7o2ud",
+          "event_date": "2025-08-29",
+          "org_id": "org_gv0e38da",
+          "service": "storage",
+          "metric": "cpu_hours",
+          "value": 1.3367,
+          "unit": "hours",
+          "cost_usd_increment": -0.0325
+        },
+        {
+          "event_id": "evt_3hma7yqhu457",
+          "event_date": "2025-07-29",
+          "org_id": "org_afeyuhz1",
+          "service": "compute",
+          "metric": "requests",
+          "value": 123.0,
+          "unit": "count",
+          "cost_usd_increment": -10.7267
+        }
+      ],
+      "value_missing": [
+        {
+          "event_id": "evt_0daxz91bfau3",
+          "event_date": "2025-07-08",
+          "org_id": "org_d14ve92m",
+          "service": "storage",
+          "metric": "cpu_hours",
+          "unit": "hours",
+          "cost_usd_increment": 0.0388
+        },
+        {
+          "event_id": "evt_0lz6n4iqi172",
+          "event_date": "2025-08-10",
+          "org_id": "org_sg65kxvf",
+          "service": "database",
+          "metric": "storage_gb_hours",
+          "unit": "gb_hours",
+          "cost_usd_increment": 0.5343
+        },
+        {
+          "event_id": "evt_19gd5nlaw2b0",
+          "event_date": "2025-08-18",
+          "org_id": "org_pnsm43d8",
+          "service": "compute",
+          "metric": "cpu_hours",
+          "unit": "hours",
+          "cost_usd_increment": 0.1235
+        },
+        {
+          "event_id": "evt_1hrr7on581ty",
+          "event_date": "2025-07-30",
+          "org_id": "org_pbhsahxt",
+          "service": "genai",
+          "metric": "requests",
+          "unit": "count",
+          "cost_usd_increment": 12.9801
+        },
+        {
+          "event_id": "evt_1kx0uy77pmtd",
+          "event_date": "2025-07-26",
+          "org_id": "org_4zw9xa3k",
+          "service": "analytics",
+          "metric": "requests",
+          "unit": "count",
+          "cost_usd_increment": 6.6179
+        }
+      ],
+      "unit_inferred": [
+        {
+          "event_id": "evt_0c0ixi5fmpf9",
+          "event_date": "2025-07-07",
+          "org_id": "org_uzfk8ut0",
+          "service": "genai",
+          "metric": "cpu_hours",
+          "value": 1.0468,
+          "unit": "hours",
+          "cost_usd_increment": 0.1437
+        },
+        {
+          "event_id": "evt_0x0iuvk1sbxd",
+          "event_date": "2025-07-27",
+          "org_id": "org_teiyzcot",
+          "service": "networking",
+          "metric": "storage_gb_hours",
+          "value": 16.6202,
+          "unit": "gb_hours",
+          "cost_usd_increment": 0.178
+        },
+        {
+          "event_id": "evt_0xvlk231737b",
+          "event_date": "2025-08-29",
+          "org_id": "org_sg65kxvf",
+          "service": "genai",
+          "metric": "requests",
+          "value": 107.0,
+          "unit": "count",
+          "cost_usd_increment": 14.961
+        },
+        {
+          "event_id": "evt_0ydh638pe4lr",
+          "event_date": "2025-07-06",
+          "org_id": "org_xll4zklo",
+          "service": "networking",
+          "metric": "storage_gb_hours",
+          "value": 18.1932,
+          "unit": "gb_hours",
+          "cost_usd_increment": 0.1882
+        },
+        {
+          "event_id": "evt_0zgszcfescm9",
+          "event_date": "2025-08-18",
+          "org_id": "org_phr62gds",
+          "service": "compute",
+          "metric": "cpu_hours",
+          "value": 2.7971,
+          "unit": "hours",
+          "cost_usd_increment": 0.2396
+        }
+      ],
+      "before_resource_created": [
+        {
+          "event_id": "evt_014krs9km2iy",
+          "event_date": "2025-07-09",
+          "org_id": "org_trp0j43d",
+          "service": "database",
+          "metric": "storage_gb_hours",
+          "value": 13.0072,
+          "unit": "gb_hours",
+          "cost_usd_increment": 0.5585
+        },
+        {
+          "event_id": "evt_01w4nm48gl5e",
+          "event_date": "2025-07-07",
+          "org_id": "org_w3zp08j3",
+          "service": "storage",
+          "metric": "storage_gb_hours",
+          "value": 15.8169,
+          "unit": "gb_hours",
+          "cost_usd_increment": 0.2795
+        },
+        {
+          "event_id": "evt_02nmox9jj5b3",
+          "event_date": "2025-08-01",
+          "org_id": "org_dzr1yxr2",
+          "service": "storage",
+          "metric": "cpu_hours",
+          "value": 0.345,
+          "unit": "hours",
+          "cost_usd_increment": 0.007
+        },
+        {
+          "event_id": "evt_03xjr7e7ikax",
+          "event_date": "2025-08-16",
+          "org_id": "org_pht0hl9x",
+          "service": "compute",
+          "metric": "requests",
+          "value": 135.0,
+          "unit": "count",
+          "cost_usd_increment": 9.1453
+        },
+        {
+          "event_id": "evt_04wugvq77e4h",
+          "event_date": "2025-07-18",
+          "org_id": "org_dzr1yxr2",
+          "service": "compute",
+          "metric": "requests",
+          "value": 138.0,
+          "unit": "count",
+          "cost_usd_increment": 12.5373
+        }
+      ],
+      "unknown_schema_version": []
+    }
+  }
+}

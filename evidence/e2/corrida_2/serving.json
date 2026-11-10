@@ -1,0 +1,146 @@
+{
+  "stage": "serving",
+  "started_at": "2026-11-10T15:26:46+00:00",
+  "status": "ok",
+  "duration_s": 37.47,
+  "error": null,
+  "inputs": [
+    {
+      "path": "datalake/gold/org_daily_usage_by_service",
+      "rows": 11050,
+      "files": 60,
+      "bytes": 1060624
+    }
+  ],
+  "outputs": [
+    {
+      "path": "evidence/e2/cql_results.txt",
+      "rows": null,
+      "files": 1,
+      "bytes": 1781
+    }
+  ],
+  "extra": {
+    "cassandra_version": "5.0.4",
+    "keyspace": "cloud_analytics",
+    "tables": {
+      "usage_by_org_service_day": {
+        "rows_source": 11050,
+        "rows_cassandra": 11050,
+        "load_seconds": 15.75
+      },
+      "top_services_14d": {
+        "rows_source": 15599,
+        "rows_cassandra": 15599,
+        "load_seconds": 15.22
+      }
+    },
+    "window_days": 14,
+    "latest_usage_date": "2025-08-31",
+    "queries": [
+      {
+        "name": "Consulta 1: costos y requests diarios por organización y servicio en un rango de fechas.",
+        "cql": "SELECT usage_date, daily_cost_usd, requests, events, events_missing_value, is_cost_anomaly, cost_robust_z FROM cloud_analytics.usage_by_org_service_day WHERE org_id = ? AND service = ? AND usage_date >= ? AND usage_date <= ?",
+        "params": [
+          "org_cvs4f8cg",
+          "networking",
+          "2025-08-11",
+          "2025-08-17"
+        ],
+        "rows": [
+          {
+            "usage_date": "2025-08-17",
+            "daily_cost_usd": 4.836,
+            "requests": 376.0,
+            "events": 6,
+            "events_missing_value": 1,
+            "is_cost_anomaly": false,
+            "cost_robust_z": 0.9996
+          },
+          {
+            "usage_date": "2025-08-15",
+            "daily_cost_usd": 0.3375,
+            "requests": null,
+            "events": 3,
+            "events_missing_value": 0,
+            "is_cost_anomaly": false,
+            "cost_robust_z": -1.1779
+          },
+          {
+            "usage_date": "2025-08-14",
+            "daily_cost_usd": 2.8991,
+            "requests": 325.0,
+            "events": 6,
+            "events_missing_value": 0,
+            "is_cost_anomaly": false,
+            "cost_robust_z": 0.062
+          },
+          {
+            "usage_date": "2025-08-13",
+            "daily_cost_usd": 2.3951,
+            "requests": 238.0,
+            "events": 3,
+            "events_missing_value": 0,
+            "is_cost_anomaly": false,
+            "cost_robust_z": -0.182
+          },
+          {
+            "usage_date": "2025-08-12",
+            "daily_cost_usd": 1.3664,
+            "requests": 125.0,
+            "events": 3,
+            "events_missing_value": 0,
+            "is_cost_anomaly": false,
+            "cost_robust_z": -0.6799
+          },
+          {
+            "usage_date": "2025-08-11",
+            "daily_cost_usd": 0.3315,
+            "requests": null,
+            "events": 6,
+            "events_missing_value": 0,
+            "is_cost_anomaly": false,
+            "cost_robust_z": -1.1808
+          }
+        ],
+        "duration_ms": 18.4
+      },
+      {
+        "name": "Consulta 2: top-N servicios por costo acumulado en los últimos 14 días para una organización.",
+        "cql": "SELECT rank, service, cost_14d_usd, days_with_usage, window_start, as_of_date FROM cloud_analytics.top_services_14d WHERE org_id = ? AND as_of_date = ? LIMIT ?",
+        "params": [
+          "org_cvs4f8cg",
+          "2025-08-31",
+          3
+        ],
+        "rows": [
+          {
+            "rank": 1,
+            "service": "genai",
+            "cost_14d_usd": 137.0204,
+            "days_with_usage": 7,
+            "window_start": "2025-08-18",
+            "as_of_date": "2025-08-31"
+          },
+          {
+            "rank": 2,
+            "service": "analytics",
+            "cost_14d_usd": 85.8359,
+            "days_with_usage": 5,
+            "window_start": "2025-08-18",
+            "as_of_date": "2025-08-31"
+          },
+          {
+            "rank": 3,
+            "service": "compute",
+            "cost_14d_usd": 58.0855,
+            "days_with_usage": 6,
+            "window_start": "2025-08-18",
+            "as_of_date": "2025-08-31"
+          }
+        ],
+        "duration_ms": 12.9
+      }
+    ]
+  }
+}

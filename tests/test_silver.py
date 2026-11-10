@@ -158,6 +158,14 @@ def test_event_before_resource_creation_is_flagged_not_rejected(silver):
     assert result.rejected.count() == 0
 
 
+@pytest.mark.parametrize("version, unknown", [(1, False), (2, False), (3, True), (None, True)])
+def test_unknown_schema_version_is_flagged_and_kept(silver, version, unknown):
+    result = silver(event(schema_version=version))
+
+    assert result.events.first()["unknown_schema_version"] is unknown
+    assert result.rejected.count() == 0
+
+
 def test_events_are_enriched_with_masters(silver):
     row = silver(event()).events.first()
 

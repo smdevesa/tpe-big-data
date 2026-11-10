@@ -13,7 +13,6 @@ log = logging.getLogger(__name__)
 MART = "org_daily_usage_by_service"
 TOP_ANOMALIES = 10
 SAMPLE_ROWS = 3
-E1_EXAMPLE = {"org_id": "org_cvs4f8cg", "usage_date": "2025-08-17", "service": "networking"}
 ANOMALY_COLUMNS = (*GRAIN, "daily_cost_usd", "cost_median_usd", "cost_mad_usd", "cost_robust_z", "events")
 
 
@@ -71,11 +70,12 @@ def _series_profile(mart):
     return row["series"], {"min": row["min"], "median": row["median"], "max": row["max"]}
 
 
-def _e1_example(mart):
+def _example(mart):
+    example = config.EVIDENCE_EXAMPLE
     rows = mart.filter(
-        (F.col("org_id") == E1_EXAMPLE["org_id"])
-        & (F.col("usage_date") == F.lit(E1_EXAMPLE["usage_date"]).cast("date"))
-        & (F.col("service") == E1_EXAMPLE["service"])
+        (F.col("org_id") == example["org_id"])
+        & (F.col("usage_date") == F.lit(example["date"]).cast("date"))
+        & (F.col("service") == example["service"])
     )
     return _as_json(rows.drop("processed_at"))
 
@@ -96,7 +96,7 @@ def run(record):
 
     series, days_per_series = _series_profile(mart)
     anomalies, top = _anomalies(mart)
-    e1 = _e1_example(mart)
+    example = _example(mart)
     orgs = mart.select("org_id").distinct().count()
     sample = _as_json(mart.orderBy(*GRAIN).limit(SAMPLE_ROWS).drop("processed_at"))
     mart.unpersist()
@@ -113,11 +113,14 @@ def run(record):
         "anomalías de costo (|z| > %.1f): %d días (%d altos, %d bajos), %d series sin referencia",
         ANOMALY_THRESHOLD, anomalies["total"], anomalies["high"], anomalies["low"], anomalies["series_without_reference"],
     )
-    if e1:
+    if example:
         log.info(
-            "ejemplo E1 %s: %.4f USD, %s requests, %d eventos, %d sin value",
-            tuple(E1_EXAMPLE.values()), e1[0]["daily_cost_usd"], e1[0]["requests"], e1[0]["events"], e1[0]["events_missing_value"],
+            "ejemplo %s: %.4f USD, %s requests, %d eventos, %d sin value",
+            tuple(config.EVIDENCE_EXAMPLE.values()), example[0]["daily_cost_usd"], example[0].get("requests"),
+            example[0]["events"], example[0]["events_missing_value"],
         )
+    else:
+        log.warning("ejemplo %s: no existe en el mart", tuple(config.EVIDENCE_EXAMPLE.values()))
 
     record.extra.update({
         "rows": rows,
@@ -128,6 +131,6 @@ def run(record):
         "reconciliation": reconciliation,
         "anomalies": anomalies,
         "top_anomalies": top,
-        "e1_example": e1,
+        "example": example,
         "sample": sample,
     })

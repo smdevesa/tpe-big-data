@@ -7,7 +7,7 @@ from src.silver.masters import CUSTOMER_COLUMNS
 from src.silver.quality import COST_BELOW_THRESHOLD, apply_quality
 
 METRIC_FEATURES = ("requests", "cpu_hours", "storage_gb_hours")
-FLAGS = ("cost_anomaly", "value_missing", "unit_inferred", "before_resource_created")
+FLAGS = ("cost_anomaly", "value_missing", "unit_inferred", "before_resource_created", "unknown_schema_version")
 SILVER_COLUMNS = (
     "event_id", "event_ts", "event_date", "org_id", *CUSTOMER_COLUMNS,
     "resource_id", "resource_state", "resource_created_at", "service", "region",

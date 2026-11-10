@@ -3,6 +3,7 @@ from pyspark.sql import functions as F
 
 UNIT_BY_METRIC = {"requests": "count", "cpu_hours": "hours", "storage_gb_hours": "gb_hours"}
 COST_ANOMALY_THRESHOLD = -0.01
+KNOWN_SCHEMA_VERSIONS = (1, 2)
 CATEGORICAL = ("service", "region", "metric", "unit")
 
 REJECTION_REASONS = (
@@ -56,5 +57,6 @@ def apply_quality(events: DataFrame) -> DataFrame:
         .withColumn("rejected", F.size("reasons") > 0)
         .withColumn("cost_anomaly", F.coalesce(F.col("cost_usd_increment") < COST_ANOMALY_THRESHOLD, F.lit(False)))
         .withColumn("value_missing", F.col("value").isNull())
+        .withColumn("unknown_schema_version", ~F.coalesce(F.col("schema_version").isin(*KNOWN_SCHEMA_VERSIONS), F.lit(False)))
         .drop("_event_copy")
     )

@@ -17,3 +17,5 @@ pip install -q -r requirements.txt
 python --version
 "$JAVA_HOME_17/bin/java" -version 2>&1 | head -1
 python -c "import pyspark; print('PySpark', pyspark.__version__)"
+
+JAVA_HOME_17="$JAVA_HOME_17" bash infra/cassandra_setup.sh

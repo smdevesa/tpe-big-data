@@ -85,6 +85,6 @@ Segunda entrega en curso.
 | Bronze batch (`customers_orgs`, `users`, `resources`, `billing_monthly`) | Implementado y probado en Colab |
 | Bronze streaming (`usage_events`) | Implementado y probado en Colab |
 | Silver (eventos, `customers_orgs`, `resources`, quarantine) | Implementado y probado en Colab |
-| Gold (`org_daily_usage_by_service` con anomalías de costo) | Implementado y probado localmente |
-| Serving en Cassandra | Pendiente (la etapa termina con estado `pending`) |
+| Gold (`org_daily_usage_by_service` con anomalías de costo) | Implementado y probado en Colab |
+| Serving en Cassandra 5.0 (dos tablas query-first, consultas 1 y 2) | Implementado y probado localmente (Docker) |
 | Diagrama de arquitectura | Versión 1.1 de la primera entrega; se actualiza al cerrar la implementación |

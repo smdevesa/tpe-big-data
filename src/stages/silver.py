@@ -15,7 +15,6 @@ log = logging.getLogger(__name__)
 SAMPLE_ROWS = 5
 FEATURES = (*METRIC_FEATURES, "genai_tokens", "carbon_kg")
 SAMPLE_COLUMNS = ("event_id", "event_date", "org_id", "service", "metric", "value", "unit", "cost_usd_increment")
-E1_EXAMPLE = {"org_id": "org_cvs4f8cg", "event_date": "2025-08-17", "service": "networking"}
 
 
 def _as_json(df, limit=None):
@@ -63,11 +62,12 @@ def _feature_profile(events):
     }
 
 
-def _e1_example(events):
+def _example(events):
+    example = config.EVIDENCE_EXAMPLE
     rows = events.filter(
-        (F.col("org_id") == E1_EXAMPLE["org_id"])
-        & (F.col("event_date") == F.lit(E1_EXAMPLE["event_date"]).cast("date"))
-        & (F.col("service") == E1_EXAMPLE["service"])
+        (F.col("org_id") == example["org_id"])
+        & (F.col("event_date") == F.lit(example["date"]).cast("date"))
+        & (F.col("service") == example["service"])
     ).orderBy("event_ts", "event_id")
     totals = rows.agg(
         F.count("*").alias("events"),
@@ -75,7 +75,7 @@ def _e1_example(events):
         F.sum("requests").alias("requests"),
         F.count_if("value_missing").alias("value_missing"),
     ).first().asDict()
-    return {"key": E1_EXAMPLE, "totals": totals, "events": _as_json(rows.select(*SAMPLE_COLUMNS, "value_missing"))}
+    return {"key": config.EVIDENCE_EXAMPLE, "totals": totals, "events": _as_json(rows.select(*SAMPLE_COLUMNS, "value_missing"))}
 
 
 def _samples(result, rules):
@@ -114,7 +114,7 @@ def run(record):
     rules, unit, unmatched = _rule_counts(result.checked)
     flags = _flag_counts(result.events)
     quarantine_samples, flag_samples = _samples(result, rules)
-    e1 = _e1_example(result.events)
+    example = _example(result.events)
     masters = {
         name: {"rows": df.count(), INGEST_DATE: str(df.first()[INGEST_DATE])}
         for name, df in (("customers_orgs", customers), ("resources", resources))
@@ -133,12 +133,17 @@ def run(record):
     log.info("flags: %s", ", ".join(f"{flag}={count}" for flag, count in flags.items()))
     if rejected_rows:
         log.warning("motivos de rechazo: %s", {reason: count for reason, count in rules.items() if count})
+    if flags["unknown_schema_version"]:
+        log.warning(
+            "%d eventos con schema_version desconocida: el esquema explícito no conserva campos nuevos",
+            flags["unknown_schema_version"],
+        )
     if any(unmatched.values()):
         log.warning("eventos sin maestro: %s", unmatched)
     log.info(
-        "ejemplo E1 %s: %d eventos, %.4f USD, %s requests, %d sin value",
-        tuple(E1_EXAMPLE.values()), e1["totals"]["events"], e1["totals"]["cost_usd"] or 0,
-        e1["totals"]["requests"], e1["totals"]["value_missing"],
+        "ejemplo %s: %d eventos, %.4f USD, %s requests, %d sin value",
+        tuple(config.EVIDENCE_EXAMPLE.values()), example["totals"]["events"], example["totals"]["cost_usd"] or 0,
+        example["totals"]["requests"], example["totals"]["value_missing"],
     )
     result.checked.unpersist()
 
@@ -153,7 +158,7 @@ def run(record):
         "features": _feature_profile(result.events),
         "join_unmatched": unmatched,
         "masters": masters,
-        "e1_example": e1,
+        "example": example,
         "quarantine_samples": quarantine_samples,
         "flag_samples": flag_samples,
     })

@@ -7,7 +7,6 @@ from src import config
 
 log = logging.getLogger(__name__)
 
-SHUFFLE_PARTITIONS = 8
 LOG4J_CONFIG = config.ROOT / "infra" / "log4j2.properties"
 
 
@@ -23,7 +22,7 @@ def get_spark():
         .config("spark.ui.showConsoleProgress", "false")
         .config("spark.sql.debug.maxToStringFields", "200")
         .config("spark.sql.session.timeZone", "UTC")
-        .config("spark.sql.shuffle.partitions", str(SHUFFLE_PARTITIONS))
+        .config("spark.sql.shuffle.partitions", str(config.SPARK_SHUFFLE_PARTITIONS))
         .getOrCreate()
     )
     log.info("SparkSession %s iniciada (master=%s)", spark.version, config.SPARK_MASTER)

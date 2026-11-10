@@ -31,3 +31,16 @@ Los genera el pipeline en cada corrida (`python -m src.pipeline run`); la eviden
 | `late_arrivals`, `late_arrivals_pct`, `max_lateness` | Eventos aceptados con `event_ts` menor al máximo de micro-lotes anteriores |
 | `schema_versions`, `cast_errors`, `corrupt_rows`, `null_event_id`, `null_event_ts` | Perfil de Bronze |
 | `partitions`, `files_written`, `sample` | Fechas, archivos Parquet y 3 eventos de muestra |
+
+`extra` de `silver.json`:
+
+| Campo | Significado |
+|---|---|
+| `bronze_rows`, `silver_rows`, `rejected_rows`, `flagged_rows` | Conteos; siempre `bronze = silver + rejected` |
+| `rules` | Eventos que fallan cada regla (una fila puede fallar varias) |
+| `unit_missing_with_value` | Eventos con `value` sin `unit`: detectados y resueltos por inferencia |
+| `flags` | `cost_anomaly`, `value_missing`, `unit_inferred`, `before_resource_created` |
+| `features` | Filas no nulas y suma de `requests`, `cpu_hours`, `storage_gb_hours`, `genai_tokens`, `carbon_kg` |
+| `join_unmatched`, `masters` | Eventos sin organización o recurso; filas e `ingest_date` de cada maestro |
+| `e1_example` | Los 6 eventos de `(org_cvs4f8cg, 2025-08-17, networking)` y sus totales |
+| `quarantine_samples`, `flag_samples` | Hasta 5 filas por motivo de rechazo, de `flagged` y por flag |

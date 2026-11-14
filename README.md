@@ -2,89 +2,93 @@
 
 Proyecto integrador de **72.80 Big Data** (ITBA, 2.º cuatrimestre 2026).
 
-**Equipo:** 
-- Santiago Manuel Devesa (64223) 
-- Rosario Otegui (63708) 
-- Alicia Cobo Iglesias (69568) 
-- Ernest Elies Domingo (69613) 
+**Equipo:**
+- Santiago Manuel Devesa (64223)
+- Rosario Otegui (63708)
+- Alicia Cobo Iglesias (69568)
+- Ernest Elies Domingo (69613)
 - Francisco Varela (64447)
 
 **Docente:** Prof. (Adj.) Diego Mosquera
 
-**Estado actual del repositorio:** Segunda entrega parcial (en curso, rama `e2`)
-
-## Objetivo
-
-Pipeline ETL + streaming + serving para un proveedor de nube: integra clientes, recursos, facturación, soporte, marketing y eventos de uso para responder preguntas de FinOps, Soporte y Producto. Usa PySpark, Parquet y Apache Cassandra.
+| Entrega | Documento |
+|---|---|
+| Primera: diseño | [`docs/Primera-Entrega.pdf`](docs/Primera-Entrega.pdf) |
+| Segunda: implementación | [`docs/Segunda-Entrega.pdf`](docs/Segunda-Entrega.pdf) |
 
 ## Arquitectura
 
-Patrón híbrido (batch + streaming) sobre un Data Lake de cuatro zonas en Parquet: Landing → Bronze → Silver → Gold, con publicación en Apache Cassandra (local en el runtime; ver `DECISIONS.md`).
+![Arquitectura implementada v2.0](docs/entrega2/img/arquitectura-v2.png)
 
-![Arquitectura propuesta](docs/entrega1/img/arquitectura-v1.1.png)
+Decisiones técnicas: [`DECISIONS.md`](DECISIONS.md).
 
-Decisiones técnicas, alternativas y correcciones respecto de la primera entrega: [`DECISIONS.md`](DECISIONS.md).
+## Quickstart (Google Colab)
 
-## Ejecución del pipeline (Google Colab)
+1. Abrir [`notebooks/e2_pipeline_colab.ipynb`](https://colab.research.google.com/github/smdevesa/tpe-big-data/blob/e2/notebooks/e2_pipeline_colab.ipynb) en Colab.
+2. *Entorno de ejecución → Desconectar y borrar el entorno de ejecución*.
+3. *Entorno de ejecución → Ejecutar todas*.
 
-Entorno oficial: Google Colab (Python 3.13+, Java 17, PySpark 4.2.1; ver [`requirements.txt`](requirements.txt)).
+El notebook instala Java 17, las dependencias y Cassandra 5.0.4 ([`infra/colab_setup.sh`](infra/colab_setup.sh)), corre `python -m src.pipeline idempotency`, muestra las consultas CQL, corre las pruebas y descarga la evidencia.
 
-1. Abrir [`notebooks/e2_pipeline_colab.ipynb`](notebooks/e2_pipeline_colab.ipynb) en Colab.
-2. *Entorno de ejecución → Ejecutar todas*.
+| Celda | Esperado |
+|---|---|
+| Setup | `Cassandra lista en N s` |
+| Pipeline | Las cinco etapas `ok` en las dos corridas e `idempotencia: ok` |
+| Consultas | Consulta 1: 6 filas; consulta 2: 3 filas |
+| Pruebas | `69 passed` |
 
-El notebook clona el repositorio, ejecuta [`infra/colab_setup.sh`](infra/colab_setup.sh) y luego:
+## Resultados
+
+| Etapa | Resultado |
+|---|---|
+| Bronze batch | `customers_orgs` 80, `users` 800, `resources` 400, `billing_monthly` 240 |
+| Bronze streaming | 43.200 eventos en 12 micro-lotes; 39.599 fuera de orden aceptados, 0 descartados |
+| Silver | 43.200 eventos; 0 rechazados; 211 costos anómalos en quarantine como `flagged` |
+| Gold | 11.050 filas; 147.433,98 USD; 134 días con costo anómalo |
+| Serving | 11.050 y 15.599 filas en Cassandra |
+| Idempotencia | Segunda corrida sin lecturas del stream y con las mismas medidas en todas las zonas |
+
+`(org_cvs4f8cg, 2025-08-17, networking)`: **4,8360 USD y 376 requests**. Evidencia en [`evidence/`](evidence/).
+
+## Comandos
 
 ```bash
-python -m src.pipeline run                  # Landing → Bronze → Silver → Gold → Cassandra
-python -m src.pipeline run --stage silver   # una sola etapa (también --from <etapa>)
-python -m src.pipeline reset                # borra las zonas derivadas; Landing no se toca
-```
-
-Cada etapa deja su evidencia en [`evidence/e2/`](evidence/): un JSON por etapa con rutas, archivos, bytes, filas y duración, y el log de la corrida en `run.log`.
-
-## Pruebas
-
-```bash
+python -m src.pipeline run                  # todas las etapas (--stage X o --from X)
+python -m src.pipeline reset                # borra zonas derivadas, checkpoints y keyspace
+python -m src.pipeline idempotency          # reset + dos corridas + comparación
 python -m pytest -q tests
 ```
 
-Detalle en [`tests/README.md`](tests/README.md).
+| Tema | Detalle |
+|---|---|
+| Configuración | Variables de entorno con default: [`config/`](config/) |
+| Logs | Un `run.log` por corrida; logs de Spark filtrados con [`infra/log4j2.properties`](infra/log4j2.properties) |
+| Errores | Una etapa que falla queda `failed` en su JSON con el error y corta la corrida |
+| Pruebas | 69 pruebas de lógica de negocio: [`tests/`](tests/) |
 
-## Ejecución local (opcional)
+## Ejecución local
 
-Requiere Python 3.13 y Java 17 o 21. La evidencia oficial es la de Colab.
+Requiere Python 3.13, Java 17 o 21 y Docker.
 
 ```bash
 python3.13 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-export JAVA_HOME=$(/usr/libexec/java_home -v 21)   # macOS; en Linux, la ruta del JDK
-python -m src.pipeline run
+docker run -d --name tpe-cassandra -p 9042:9042 -e MAX_HEAP_SIZE=1G -e HEAP_NEWSIZE=256M cassandra:5.0.4
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+python -m src.pipeline idempotency
 ```
 
-## Desarrollo local (informe y exploración)
+## Estructura
 
-```bash
-python -m venv .venv
-source .venv/bin/activate              # Windows PowerShell: .\.venv\Scripts\Activate.ps1
-pip install -r requirements-dev.txt
-```
-
-| Qué | Cómo |
+| Carpeta | Contenido |
 |---|---|
-| Generar el PDF del informe | `python tools/docs/build_pdf.py` → `docs/build/entrega1.pdf` |
-| Explorar los datos | `jupyter lab notebooks/` (ver [`notebooks/README.md`](notebooks/README.md)) |
-
-## Limitaciones
-
-Segunda entrega en curso.
-
-| Componente | Estado |
-|---|---|
-| Entrypoint, logs y evidencia automática | Implementado |
-| Bronze batch (`customers_orgs`, `users`, `resources`, `billing_monthly`) | Implementado y probado en Colab |
-| Bronze streaming (`usage_events`) | Implementado y probado en Colab |
-| Silver (eventos, `customers_orgs`, `resources`, quarantine) | Implementado y probado en Colab |
-| Gold (`org_daily_usage_by_service` con anomalías de costo) | Implementado y probado en Colab |
-| Serving en Cassandra 5.0 (dos tablas query-first, consultas 1 y 2) | Implementado y probado localmente (Docker) |
-| Diagrama de arquitectura | Versión 1.1 de la primera entrega; se actualiza al cerrar la implementación |
+| [`src/`](src/) | Pipeline: una etapa por zona |
+| [`tests/`](tests/) | Pruebas |
+| [`infra/`](infra/) | Setup de Colab y Cassandra, CQL, logs de Spark |
+| [`notebooks/`](notebooks/) | Ejecución en Colab y exploración de la primera entrega |
+| [`datalake/landing/`](datalake/landing/) | Datos provistos (inmutables) |
+| [`evidence/`](evidence/) | Evidencia de ejecución |
+| [`docs/`](docs/) | Consigna y entregas (Markdown y PDF) |
+| [`config/`](config/) | Variables de entorno |
+| [`tools/docs/`](tools/docs/) | Compilación de las entregas a PDF |

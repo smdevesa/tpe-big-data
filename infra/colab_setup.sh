@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Prepara un runtime limpio de Google Colab. Idempotente.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

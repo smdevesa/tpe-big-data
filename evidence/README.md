@@ -4,14 +4,37 @@ Logs y resultados de ejecución de cada entrega. Los notebooks de exploración, 
 
 ## Segunda entrega (`e2/`)
 
-Los genera el pipeline en cada corrida (`python -m src.pipeline run`); la evidencia oficial es la de la corrida en Google Colab, que el notebook descarga como zip.
+La evidencia oficial la genera `python -m src.pipeline idempotency` en Google Colab (el notebook la descarga como zip): `reset` completo, dos corridas del pipeline y la comparación del estado guardado. `python -m src.pipeline run` escribe en `e2/` directamente, para uso diario.
+
+| Evidencia pedida (6.3) | Dónde |
+|---|---|
+| Logs | `corrida_N/run.log`, `idempotency.log` |
+| Rutas, tamaños y conteos | `inputs` y `outputs` de cada `corrida_N/<etapa>.json` (ruta, filas, archivos, bytes) |
+| Muestras de quarantine | `quarantine_samples` en `corrida_N/silver.json`; motivos de Bronze en `bronze_batch.json` |
+| Capturas de consultas | `corrida_N/cql_results.txt` y `extra.queries` en `serving.json` |
+| Idempotencia (6.2) | `idempotency.json` |
+| Pruebas | `pytest.txt`, `pytest.xml` |
 
 | Archivo | Contenido |
 |---|---|
-| `run.log` | Log completo de la corrida: comando, entorno (Python, Java, PySpark), inicio, fin y resumen de cada etapa |
-| `cql_results.txt` | Las dos consultas CQL con sus parámetros y filas devueltas, en tabla |
+| `corrida_1/`, `corrida_2/` | Evidencia de cada corrida: un `<etapa>.json` por etapa, `cql_results.txt` y su propio `run.log`. La corrida 1 parte de un estado limpio; la 2 se ejecuta sin `reset` |
+| `idempotency.json` | Medidas del estado guardado después de cada corrida (filas, claves distintas y sumas por zona y tabla de Cassandra), diferencias, chequeos y resultado (`ok` / `failed`) |
+| `idempotency.log` | `reset` y tabla comparativa de las dos corridas |
 | `pytest.txt`, `pytest.xml` | Salida de las pruebas (texto y JUnit), generada por el notebook |
-| `<etapa>.json` | `status` (`ok`, `pending`, `failed`), `duration_s`, `error`, `inputs` y `outputs` (ruta, filas, archivos, bytes) y `extra` con las métricas de la etapa |
+
+| Archivo dentro de cada corrida | Contenido |
+|---|---|
+| `run.log` | Log de la corrida: entorno (Python, Java, PySpark), inicio, fin y resumen de cada etapa |
+| `<etapa>.json` | `status` (`ok`, `failed`), `duration_s`, `error`, `inputs` y `outputs` (ruta, filas, archivos, bytes) y `extra` con las métricas de la etapa |
+| `cql_results.txt` | Las dos consultas CQL con sus parámetros y filas devueltas, en tabla |
+
+Chequeos de `idempotency.json`:
+
+| Chequeo | Significado |
+|---|---|
+| `same_measures` | Cada medida es igual en las dos corridas |
+| `unique_keys` | `event_id` distintos = filas con `event_id` (Bronze y Silver) y claves `(usage_date, org_id, service)` distintas = filas (Gold), en las dos corridas |
+| `stream_read_nothing_new` | La corrida 2 no leyó filas del stream (checkpoint) |
 
 `extra` de `bronze_batch.json`, por fuente:
 

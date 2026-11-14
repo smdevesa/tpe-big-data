@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Instala y levanta Apache Cassandra single-node en el runtime. Idempotente.
 set -euo pipefail
 
 CASSANDRA_VERSION="${CASSANDRA_VERSION:-5.0.4}"

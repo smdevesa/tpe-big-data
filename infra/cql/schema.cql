@@ -1,6 +1,3 @@
--- Keyspace y tablas query-first para el mart org_daily_usage_by_service.
--- Un solo nodo: SimpleStrategy con replication_factor 1.
-
 CREATE KEYSPACE IF NOT EXISTS cloud_analytics
   WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
 

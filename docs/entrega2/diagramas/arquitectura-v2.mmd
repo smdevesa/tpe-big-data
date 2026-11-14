@@ -1,0 +1,62 @@
+---
+title: Cloud Provider Analytics — Arquitectura implementada (v2.0 · 14/11/2026)
+config:
+  flowchart:
+    nodeSpacing: 25
+    rankSpacing: 28
+    padding: 8
+    subGraphTitleMargin:
+      top: 6
+      bottom: 30
+---
+flowchart TB
+    csv["<b>Maestros CSV</b><br/>customers_orgs · users<br/>resources · billing_monthly"]
+    jsonl["<b>Eventos JSONL</b><br/>usage_events_stream<br/>120 archivos · v1 y v2"]
+
+    subgraph DL["DATA LAKE · Parquet"]
+        landing["<b>Landing</b><br/>Originales sin modificar"]
+        batch["<b>Batch · PySpark</b><br/>Esquema explícito<br/>try_cast<br/>dedupe por clave"]
+        stream["<b>Structured Streaming</b><br/>10 archivos por micro-lote<br/>watermark 61 días<br/>dedupe event_id<br/>checkpoint"]
+        bronze["<b>Bronze</b><br/>source_file · ingest_ts<br/>maestros por ingest_date<br/>eventos por event_date"]
+        silver["<b>Silver</b><br/>Reglas de calidad y flags<br/>unit inferida · v1/v2<br/>join con maestros<br/>features"]
+        gold["<b>Gold</b><br/>org_daily_usage_by_service<br/>anomalías de costo (MAD)"]
+        quar["<b>Quarantine</b><br/>Rechazados y marcados<br/>con motivo<br/>y registro original"]
+        landing --> batch --> bronze
+        landing --> stream --> bronze
+        batch -->|"inválidos"| quar
+        bronze --> silver
+        silver -->|"rechazados · flagged"| quar
+        silver --> gold
+    end
+
+    cass["<b>Cassandra 5.0</b><br/>keyspace cloud_analytics<br/>usage_by_org_service_day<br/>top_services_14d"]
+    cons["<b>Consultas CQL</b><br/>1 · Costos y requests<br/>diarios<br/>2 · Top-N servicios<br/>en 14 días"]
+
+    csv --> landing
+    jsonl --> landing
+    gold -->|"carga idempotente"| cass --> cons
+
+    transv["<b>En todo el recorrido</b><br/>python -m src.pipeline<br/>evidencia por etapa · logs<br/>idempotencia verificada<br/>69 pruebas"]
+    cons ~~~ transv
+
+    style DL fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:6 4
+    classDef batch fill:#dbeafe,stroke:#3b82f6,color:#1e293b
+    classDef stream fill:#dcfce7,stroke:#22c55e,color:#1e293b
+    classDef zone fill:#fef9c3,stroke:#eab308,color:#1e293b
+    classDef raw fill:#ffffff,stroke:#64748b,color:#1e293b
+    classDef silverc fill:#e2e8f0,stroke:#64748b,color:#1e293b
+    classDef goldc fill:#fde68a,stroke:#f59e0b,color:#1e293b
+    classDef bad fill:#fee2e2,stroke:#ef4444,color:#1e293b
+    classDef serve fill:#ede9fe,stroke:#8b5cf6,color:#1e293b
+    classDef use fill:#fce7f3,stroke:#ec4899,color:#1e293b
+    classDef bar fill:#f1f5f9,stroke:#94a3b8,color:#1e293b
+    class csv,batch batch
+    class jsonl,stream stream
+    class bronze zone
+    class landing raw
+    class silver silverc
+    class gold goldc
+    class quar bad
+    class cass serve
+    class cons use
+    class transv bar

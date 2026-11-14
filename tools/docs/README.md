@@ -58,8 +58,11 @@ python -c "import pypandoc, typst; print(pypandoc.get_pandoc_version(), typst.__
 Con el venv activado, desde la raíz del repo:
 
 ```bash
-python tools/docs/build_pdf.py      # -> docs/build/entrega1.pdf
+python tools/docs/build_pdf.py                                        # -> docs/build/entrega1.pdf
+python tools/docs/build_pdf.py entrega2 --source segunda-entrega.md   # -> docs/build/entrega2.pdf
 ```
+
+El script usa el pandoc que trae `pypandoc_binary`, aunque haya otro instalado en el sistema: versiones distintas generan Typst incompatible con el estilo.
 
 Sin activar el venv:
 

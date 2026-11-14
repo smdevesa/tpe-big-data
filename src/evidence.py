@@ -57,11 +57,6 @@ class StageRecord:
     def output(self, path, rows=None):
         self.outputs.append(self._describe("salida", path, rows))
 
-    def mark_pending(self, spec):
-        self.status = "pending"
-        self.extra["pending"] = spec
-        log.warning("etapa %s pendiente de implementación (%s)", self.stage, spec)
-
     def _describe(self, kind, path, rows):
         info = describe_path(path, rows)
         log.debug(
@@ -85,8 +80,7 @@ def stage(name):
     log.info("etapa %s: inicio", name)
     try:
         yield record
-        if record.status == "running":
-            record.status = "ok"
+        record.status = "ok"
     except Exception as exc:
         record.status = "failed"
         record.error = f"{type(exc).__name__}: {exc}"

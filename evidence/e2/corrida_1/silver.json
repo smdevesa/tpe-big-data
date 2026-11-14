@@ -1,15 +1,15 @@
 {
   "stage": "silver",
-  "started_at": "2026-11-10T15:20:18+00:00",
+  "started_at": "2026-11-14T22:16:07+00:00",
   "status": "ok",
-  "duration_s": 33.71,
+  "duration_s": 34.38,
   "error": null,
   "inputs": [
     {
       "path": "datalake/bronze/usage_events",
       "rows": 43200,
       "files": 720,
-      "bytes": 7216202
+      "bytes": 7218360
     }
   ],
   "outputs": [
@@ -17,25 +17,25 @@
       "path": "datalake/silver/usage_events",
       "rows": 43200,
       "files": 60,
-      "bytes": 3022603
+      "bytes": 3022541
     },
     {
       "path": "datalake/quarantine/silver_usage_events",
       "rows": 211,
       "files": 1,
-      "bytes": 26208
+      "bytes": 26212
     },
     {
       "path": "datalake/silver/customers_orgs",
       "rows": 80,
       "files": 1,
-      "bytes": 6983
+      "bytes": 6984
     },
     {
       "path": "datalake/silver/resources",
       "rows": 400,
       "files": 1,
-      "bytes": 13006
+      "bytes": 13007
     }
   ],
   "extra": {
@@ -92,11 +92,11 @@
     "masters": {
       "customers_orgs": {
         "rows": 80,
-        "ingest_date": "2026-11-10"
+        "ingest_date": "2026-11-14"
       },
       "resources": {
         "rows": 400,
-        "ingest_date": "2026-11-10"
+        "ingest_date": "2026-11-14"
       }
     },
     "example": {
@@ -189,9 +189,9 @@
           "reasons": [
             "cost_below_threshold"
           ],
-          "raw": "{\"event_id\":\"evt_0mv15gk8xuga\",\"event_ts\":\"2025-08-08T23:47:00.000Z\",\"org_id\":\"org_53lc58dr\",\"resource_id\":\"res_flq8xpa9\",\"service\":\"genai\",\"region\":\"us-east\",\"metric\":\"cpu_hours\",\"value\":1.5755,\"value_raw\":\"1.5755\",\"unit\":\"hours\",\"cost_usd_increment\":-0.1854,\"schema_version\":2,\"carbon_kg\":3.15E-4,\"genai_tokens\":67,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0014.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:25.322Z\",\"event_date\":\"2025-08-08\"}",
+          "raw": "{\"event_id\":\"evt_0mv15gk8xuga\",\"event_ts\":\"2025-08-08T23:47:00.000Z\",\"org_id\":\"org_53lc58dr\",\"resource_id\":\"res_flq8xpa9\",\"service\":\"genai\",\"region\":\"us-east\",\"metric\":\"cpu_hours\",\"value\":1.5755,\"value_raw\":\"1.5755\",\"unit\":\"hours\",\"cost_usd_increment\":-0.1854,\"schema_version\":2,\"carbon_kg\":3.15E-4,\"genai_tokens\":67,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0014.jsonl\",\"ingest_ts\":\"2026-11-14T22:15:20.574Z\",\"event_date\":\"2025-08-08\"}",
           "source_file": "landing/usage_events_stream/events_part_0014.jsonl",
-          "ingest_ts": "2026-11-10T15:19:25.322Z"
+          "ingest_ts": "2026-11-14T22:15:20.574Z"
         },
         {
           "source": "usage_events",
@@ -200,9 +200,9 @@
           "reasons": [
             "cost_below_threshold"
           ],
-          "raw": "{\"event_id\":\"evt_0s3r8qeziv84\",\"event_ts\":\"2025-07-08T00:00:00.000Z\",\"org_id\":\"org_5lxo6qji\",\"resource_id\":\"res_ykis11d2\",\"service\":\"database\",\"region\":\"eu-central\",\"metric\":\"requests\",\"value\":121.0,\"value_raw\":\"121.0\",\"unit\":\"count\",\"cost_usd_increment\":-5.1627,\"schema_version\":1,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0071.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:47.463Z\",\"event_date\":\"2025-07-08\"}",
+          "raw": "{\"event_id\":\"evt_0s3r8qeziv84\",\"event_ts\":\"2025-07-08T00:00:00.000Z\",\"org_id\":\"org_5lxo6qji\",\"resource_id\":\"res_ykis11d2\",\"service\":\"database\",\"region\":\"eu-central\",\"metric\":\"requests\",\"value\":121.0,\"value_raw\":\"121.0\",\"unit\":\"count\",\"cost_usd_increment\":-5.1627,\"schema_version\":1,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0071.jsonl\",\"ingest_ts\":\"2026-11-14T22:15:39.302Z\",\"event_date\":\"2025-07-08\"}",
           "source_file": "landing/usage_events_stream/events_part_0071.jsonl",
-          "ingest_ts": "2026-11-10T15:19:47.463Z"
+          "ingest_ts": "2026-11-14T22:15:39.302Z"
         },
         {
           "source": "usage_events",
@@ -211,9 +211,9 @@
           "reasons": [
             "cost_below_threshold"
           ],
-          "raw": "{\"event_id\":\"evt_11kvg2do2pr9\",\"event_ts\":\"2025-07-09T14:56:00.000Z\",\"org_id\":\"org_teiyzcot\",\"resource_id\":\"res_kh0uhk7x\",\"service\":\"compute\",\"region\":\"us-west\",\"metric\":\"requests\",\"value\":114.0,\"value_raw\":\"114.0\",\"unit\":\"count\",\"cost_usd_increment\":-5.4733,\"schema_version\":1,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0081.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:50.845Z\",\"event_date\":\"2025-07-09\"}",
+          "raw": "{\"event_id\":\"evt_11kvg2do2pr9\",\"event_ts\":\"2025-07-09T14:56:00.000Z\",\"org_id\":\"org_teiyzcot\",\"resource_id\":\"res_kh0uhk7x\",\"service\":\"compute\",\"region\":\"us-west\",\"metric\":\"requests\",\"value\":114.0,\"value_raw\":\"114.0\",\"unit\":\"count\",\"cost_usd_increment\":-5.4733,\"schema_version\":1,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0081.jsonl\",\"ingest_ts\":\"2026-11-14T22:15:43.390Z\",\"event_date\":\"2025-07-09\"}",
           "source_file": "landing/usage_events_stream/events_part_0081.jsonl",
-          "ingest_ts": "2026-11-10T15:19:50.845Z"
+          "ingest_ts": "2026-11-14T22:15:43.390Z"
         },
         {
           "source": "usage_events",
@@ -222,9 +222,9 @@
           "reasons": [
             "cost_below_threshold"
           ],
-          "raw": "{\"event_id\":\"evt_3c58kzx7o2ud\",\"event_ts\":\"2025-08-29T19:19:00.000Z\",\"org_id\":\"org_gv0e38da\",\"resource_id\":\"res_rupflfcy\",\"service\":\"storage\",\"region\":\"us-west\",\"metric\":\"cpu_hours\",\"value\":1.3367,\"value_raw\":\"1.3367\",\"unit\":\"hours\",\"cost_usd_increment\":-0.0325,\"schema_version\":2,\"carbon_kg\":2.67E-4,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0066.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:43.386Z\",\"event_date\":\"2025-08-29\"}",
+          "raw": "{\"event_id\":\"evt_3c58kzx7o2ud\",\"event_ts\":\"2025-08-29T19:19:00.000Z\",\"org_id\":\"org_gv0e38da\",\"resource_id\":\"res_rupflfcy\",\"service\":\"storage\",\"region\":\"us-west\",\"metric\":\"cpu_hours\",\"value\":1.3367,\"value_raw\":\"1.3367\",\"unit\":\"hours\",\"cost_usd_increment\":-0.0325,\"schema_version\":2,\"carbon_kg\":2.67E-4,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0066.jsonl\",\"ingest_ts\":\"2026-11-14T22:15:36.677Z\",\"event_date\":\"2025-08-29\"}",
           "source_file": "landing/usage_events_stream/events_part_0066.jsonl",
-          "ingest_ts": "2026-11-10T15:19:43.386Z"
+          "ingest_ts": "2026-11-14T22:15:36.677Z"
         },
         {
           "source": "usage_events",
@@ -233,9 +233,9 @@
           "reasons": [
             "cost_below_threshold"
           ],
-          "raw": "{\"event_id\":\"evt_3hma7yqhu457\",\"event_ts\":\"2025-07-29T13:22:00.000Z\",\"org_id\":\"org_afeyuhz1\",\"resource_id\":\"res_6atvd1xe\",\"service\":\"compute\",\"region\":\"ap-northeast\",\"metric\":\"requests\",\"value\":123.0,\"value_raw\":\"123.0\",\"unit\":\"count\",\"cost_usd_increment\":-10.7267,\"schema_version\":2,\"carbon_kg\":0.0246,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0075.jsonl\",\"ingest_ts\":\"2026-11-10T15:19:47.463Z\",\"event_date\":\"2025-07-29\"}",
+          "raw": "{\"event_id\":\"evt_3hma7yqhu457\",\"event_ts\":\"2025-07-29T13:22:00.000Z\",\"org_id\":\"org_afeyuhz1\",\"resource_id\":\"res_6atvd1xe\",\"service\":\"compute\",\"region\":\"ap-northeast\",\"metric\":\"requests\",\"value\":123.0,\"value_raw\":\"123.0\",\"unit\":\"count\",\"cost_usd_increment\":-10.7267,\"schema_version\":2,\"carbon_kg\":0.0246,\"cast_errors\":[],\"source_file\":\"landing/usage_events_stream/events_part_0075.jsonl\",\"ingest_ts\":\"2026-11-14T22:15:39.302Z\",\"event_date\":\"2025-07-29\"}",
           "source_file": "landing/usage_events_stream/events_part_0075.jsonl",
-          "ingest_ts": "2026-11-10T15:19:47.463Z"
+          "ingest_ts": "2026-11-14T22:15:39.302Z"
         }
       ]
     },

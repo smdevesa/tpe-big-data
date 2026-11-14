@@ -1,8 +1,8 @@
 {
   "stage": "bronze_batch",
-  "started_at": "2026-11-10T15:18:20+00:00",
+  "started_at": "2026-11-14T22:14:18+00:00",
   "status": "ok",
-  "duration_s": 55.62,
+  "duration_s": 53.77,
   "error": null,
   "inputs": [
     {
@@ -35,7 +35,7 @@
       "path": "datalake/bronze/customers_orgs",
       "rows": 80,
       "files": 1,
-      "bytes": 6680
+      "bytes": 6681
     },
     {
       "path": "datalake/quarantine/bronze_customers_orgs",
@@ -46,7 +46,7 @@
       "path": "datalake/bronze/users",
       "rows": 800,
       "files": 1,
-      "bytes": 23592
+      "bytes": 23593
     },
     {
       "path": "datalake/quarantine/bronze_users",
@@ -57,7 +57,7 @@
       "path": "datalake/bronze/resources",
       "rows": 400,
       "files": 1,
-      "bytes": 11668
+      "bytes": 11669
     },
     {
       "path": "datalake/quarantine/bronze_resources",
@@ -68,7 +68,7 @@
       "path": "datalake/bronze/billing_monthly",
       "rows": 240,
       "files": 3,
-      "bytes": 17836
+      "bytes": 17839
     },
     {
       "path": "datalake/quarantine/bronze_billing_monthly",
@@ -77,7 +77,7 @@
     }
   ],
   "extra": {
-    "ingest_ts": "2026-11-10T15:18:35+00:00",
+    "ingest_ts": "2026-11-14T22:14:34+00:00",
     "customers_orgs": {
       "landing_rows": 80,
       "bronze_rows": 80,
@@ -85,7 +85,7 @@
       "exact_duplicates": 0,
       "quarantine_by_reason": {},
       "partitions": [
-        "ingest_date=2026-11-10"
+        "ingest_date=2026-11-14"
       ],
       "schema": "struct<org_id:string,org_name:string,industry:string,hq_region:string,plan_tier:string,is_enterprise:boolean,signup_date:date,sales_rep:string,lifecycle_stage:string,marketing_source:string,nps_score:double,source_file:string,ingest_ts:timestamp,ingest_date:date>",
       "sample": [
@@ -102,8 +102,8 @@
           "marketing_source": "event",
           "nps_score": -1.0,
           "source_file": "landing/customers_orgs.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         },
         {
           "org_id": "org_0lzjjege",
@@ -118,8 +118,8 @@
           "marketing_source": "referral",
           "nps_score": -7.0,
           "source_file": "landing/customers_orgs.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         },
         {
           "org_id": "org_1n13jcat",
@@ -134,8 +134,8 @@
           "marketing_source": "event",
           "nps_score": 34.0,
           "source_file": "landing/customers_orgs.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         }
       ]
     },
@@ -146,7 +146,7 @@
       "exact_duplicates": 0,
       "quarantine_by_reason": {},
       "partitions": [
-        "ingest_date=2026-11-10"
+        "ingest_date=2026-11-14"
       ],
       "schema": "struct<user_id:string,org_id:string,email:string,role:string,active:boolean,created_at:date,last_login:date,source_file:string,ingest_ts:timestamp,ingest_date:date>",
       "sample": [
@@ -159,8 +159,8 @@
           "created_at": "2025-07-12",
           "last_login": "2025-06-05",
           "source_file": "landing/users.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         },
         {
           "user_id": "user_0224wk0y",
@@ -171,8 +171,8 @@
           "created_at": "2025-06-17",
           "last_login": "2025-07-29",
           "source_file": "landing/users.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         },
         {
           "user_id": "user_049enulq",
@@ -183,8 +183,8 @@
           "created_at": "2025-05-30",
           "last_login": "2025-07-23",
           "source_file": "landing/users.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         }
       ]
     },
@@ -195,7 +195,7 @@
       "exact_duplicates": 0,
       "quarantine_by_reason": {},
       "partitions": [
-        "ingest_date=2026-11-10"
+        "ingest_date=2026-11-14"
       ],
       "schema": "struct<resource_id:string,org_id:string,service:string,region:string,created_at:date,state:string,tags_json:string,source_file:string,ingest_ts:timestamp,ingest_date:date>",
       "sample": [
@@ -208,8 +208,8 @@
           "state": "stopped",
           "tags_json": "[\"backup:daily\", \"env:dev\"]",
           "source_file": "landing/resources.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         },
         {
           "resource_id": "res_019ydq3n",
@@ -220,8 +220,8 @@
           "state": "running",
           "tags_json": "[\"backup:daily\"]",
           "source_file": "landing/resources.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         },
         {
           "resource_id": "res_02grxpud",
@@ -232,8 +232,8 @@
           "state": "stopped",
           "tags_json": "[\"team:ml\"]",
           "source_file": "landing/resources.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z",
-          "ingest_date": "2026-11-10"
+          "ingest_ts": "2026-11-14T22:14:34.000Z",
+          "ingest_date": "2026-11-14"
         }
       ]
     },
@@ -259,7 +259,7 @@
           "currency": "ARS",
           "exchange_rate_to_usd": 0.00158,
           "source_file": "landing/billing_monthly.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z"
+          "ingest_ts": "2026-11-14T22:14:34.000Z"
         },
         {
           "invoice_id": "inv_07uj4fqk",
@@ -271,7 +271,7 @@
           "currency": "ARS",
           "exchange_rate_to_usd": 0.00153,
           "source_file": "landing/billing_monthly.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z"
+          "ingest_ts": "2026-11-14T22:14:34.000Z"
         },
         {
           "invoice_id": "inv_081i1ccm",
@@ -282,7 +282,7 @@
           "currency": "USD",
           "exchange_rate_to_usd": 0.9616,
           "source_file": "landing/billing_monthly.csv",
-          "ingest_ts": "2026-11-10T15:18:35.000Z"
+          "ingest_ts": "2026-11-14T22:14:34.000Z"
         }
       ]
     }

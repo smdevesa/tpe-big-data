@@ -1,15 +1,15 @@
 {
   "stage": "gold",
-  "started_at": "2026-11-10T15:20:52+00:00",
+  "started_at": "2026-11-14T22:16:41+00:00",
   "status": "ok",
-  "duration_s": 12.64,
+  "duration_s": 11.9,
   "error": null,
   "inputs": [
     {
       "path": "datalake/silver/usage_events",
       "rows": null,
       "files": 60,
-      "bytes": 3022603
+      "bytes": 3022541
     }
   ],
   "outputs": [
@@ -29,7 +29,7 @@
       "median": 39.0,
       "max": 60
     },
-    "processed_at": "2026-11-10T15:20:52+00:00",
+    "processed_at": "2026-11-14T22:16:41+00:00",
     "reconciliation": {
       "cost_usd": {
         "silver": 147433.98,

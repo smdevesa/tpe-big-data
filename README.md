@@ -24,7 +24,7 @@ Decisiones técnicas: [`DECISIONS.md`](DECISIONS.md).
 
 ## Quickstart (Google Colab)
 
-1. Abrir [`notebooks/e2_pipeline_colab.ipynb`](https://colab.research.google.com/github/smdevesa/tpe-big-data/blob/e2/notebooks/e2_pipeline_colab.ipynb) en Colab.
+1. Abrir [`notebooks/e2_pipeline_colab.ipynb`](https://colab.research.google.com/github/smdevesa/tpe-big-data/blob/main/notebooks/e2_pipeline_colab.ipynb) en Colab.
 2. *Entorno de ejecución → Desconectar y borrar el entorno de ejecución*.
 3. *Entorno de ejecución → Ejecutar todas*.
 

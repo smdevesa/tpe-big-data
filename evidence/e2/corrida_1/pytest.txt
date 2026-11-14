@@ -1,3 +1,0 @@
-.................................................................        [100%]
-------- generated xml file: /content/tpe-big-data/evidence/e2/pytest.xml -------
-65 passed in 163.73s (0:02:43)

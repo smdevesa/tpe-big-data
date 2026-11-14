@@ -1,8 +1,8 @@
 {
   "stage": "serving",
-  "started_at": "2026-11-10T15:26:46+00:00",
+  "started_at": "2026-11-14T22:18:37+00:00",
   "status": "ok",
-  "duration_s": 37.47,
+  "duration_s": 27.96,
   "error": null,
   "inputs": [
     {
@@ -14,10 +14,10 @@
   ],
   "outputs": [
     {
-      "path": "evidence/e2/cql_results.txt",
+      "path": "evidence/e2/corrida_2/cql_results.txt",
       "rows": null,
       "files": 1,
-      "bytes": 1781
+      "bytes": 1779
     }
   ],
   "extra": {
@@ -27,12 +27,12 @@
       "usage_by_org_service_day": {
         "rows_source": 11050,
         "rows_cassandra": 11050,
-        "load_seconds": 15.75
+        "load_seconds": 11.22
       },
       "top_services_14d": {
         "rows_source": 15599,
         "rows_cassandra": 15599,
-        "load_seconds": 15.22
+        "load_seconds": 12.37
       }
     },
     "window_days": 14,
@@ -103,7 +103,7 @@
             "cost_robust_z": -1.1808
           }
         ],
-        "duration_ms": 18.4
+        "duration_ms": 5.7
       },
       {
         "name": "Consulta 2: top-N servicios por costo acumulado en los últimos 14 días para una organización.",
@@ -139,7 +139,7 @@
             "as_of_date": "2025-08-31"
           }
         ],
-        "duration_ms": 12.9
+        "duration_ms": 5.1
       }
     ]
   }

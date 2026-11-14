@@ -1,8 +1,8 @@
 {
   "stage": "bronze_stream",
-  "started_at": "2026-11-10T15:25:29+00:00",
+  "started_at": "2026-11-14T22:17:55+00:00",
   "status": "ok",
-  "duration_s": 17.23,
+  "duration_s": 9.77,
   "error": null,
   "inputs": [
     {
@@ -17,13 +17,13 @@
       "path": "datalake/bronze/usage_events",
       "rows": 43200,
       "files": 720,
-      "bytes": 7216202
+      "bytes": 7218360
     },
     {
       "path": "datalake/_checkpoints/bronze_usage_events",
       "rows": null,
       "files": 141,
-      "bytes": 1939811
+      "bytes": 1939718
     }
   ],
   "extra": {
@@ -66,7 +66,7 @@
         "carbon_kg": 0.0,
         "cast_errors": [],
         "source_file": "landing/usage_events_stream/events_part_0006.jsonl",
-        "ingest_ts": "2026-11-10T15:19:18.903Z",
+        "ingest_ts": "2026-11-14T22:15:14.748Z",
         "event_date": "2025-08-04"
       },
       {
@@ -86,7 +86,7 @@
         "genai_tokens": 490,
         "cast_errors": [],
         "source_file": "landing/usage_events_stream/events_part_0114.jsonl",
-        "ingest_ts": "2026-11-10T15:19:59.777Z",
+        "ingest_ts": "2026-11-14T22:15:51.013Z",
         "event_date": "2025-07-23"
       },
       {
@@ -104,7 +104,7 @@
         "schema_version": 1,
         "cast_errors": [],
         "source_file": "landing/usage_events_stream/events_part_0065.jsonl",
-        "ingest_ts": "2026-11-10T15:19:43.386Z",
+        "ingest_ts": "2026-11-14T22:15:36.677Z",
         "event_date": "2025-07-06"
       }
     ]

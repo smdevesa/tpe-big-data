@@ -1,0 +1,16 @@
+2026-11-14T22:14:17Z | INFO    | src.pipeline             | comando: idempotency
+2026-11-14T22:14:18Z | INFO    | src.pipeline             | borrado el keyspace cloud_analytics
+2026-11-14T22:14:18Z | INFO    | src.pipeline             | reset completo; Landing intacta en /content/tpe-big-data/datalake/landing
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | bronze.customers_orgs                    rows: 80 -> 80
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | bronze.users                             rows: 800 -> 800
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | bronze.resources                         rows: 400 -> 400
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | bronze.billing_monthly                   rows: 240 -> 240
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | bronze.usage_events                      rows: 43200 -> 43200 | rows_with_event_id: 43200 -> 43200 | distinct_event_id: 43200 -> 43200
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | silver.usage_events                      rows: 43200 -> 43200 | rows_with_event_id: 43200 -> 43200 | distinct_event_id: 43200 -> 43200 | cost_usd: 147433.98 -> 147433.98
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | quarantine.silver_usage_events           rejected: 0 -> 0 | flagged: 211 -> 211
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | gold.org_daily_usage_by_service          rows: 11050 -> 11050 | distinct_keys: 11050 -> 11050 | cost_usd: 147433.98 -> 147433.98 | requests: 2294079.0 -> 2294079.0
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | cassandra.usage_by_org_service_day       rows: 11050 -> 11050
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | cassandra.top_services_14d               rows: 15599 -> 15599
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | lectura del stream en la corrida 2: 0 filas
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | chequeos: {'same_measures': True, 'unique_keys': True, 'stream_read_nothing_new': True}
+2026-11-14T22:19:16Z | INFO    | src.pipeline             | idempotencia: ok, detalle en idempotency.json

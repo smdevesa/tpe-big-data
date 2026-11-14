@@ -1,0 +1,104 @@
+{
+  "result": "ok",
+  "checks": {
+    "same_measures": true,
+    "unique_keys": true,
+    "stream_read_nothing_new": true
+  },
+  "differences": [],
+  "unique_keys": {
+    "first": {
+      "bronze.usage_events": true,
+      "silver.usage_events": true,
+      "gold.org_daily_usage_by_service": true
+    },
+    "second": {
+      "bronze.usage_events": true,
+      "silver.usage_events": true,
+      "gold.org_daily_usage_by_service": true
+    }
+  },
+  "second_run_stream_rows": 0,
+  "first": {
+    "bronze.customers_orgs": {
+      "rows": 80
+    },
+    "bronze.users": {
+      "rows": 800
+    },
+    "bronze.resources": {
+      "rows": 400
+    },
+    "bronze.billing_monthly": {
+      "rows": 240
+    },
+    "bronze.usage_events": {
+      "rows": 43200,
+      "rows_with_event_id": 43200,
+      "distinct_event_id": 43200
+    },
+    "silver.usage_events": {
+      "rows": 43200,
+      "rows_with_event_id": 43200,
+      "distinct_event_id": 43200,
+      "cost_usd": 147433.98
+    },
+    "quarantine.silver_usage_events": {
+      "rejected": 0,
+      "flagged": 211
+    },
+    "gold.org_daily_usage_by_service": {
+      "rows": 11050,
+      "distinct_keys": 11050,
+      "cost_usd": 147433.98,
+      "requests": 2294079.0
+    },
+    "cassandra.usage_by_org_service_day": {
+      "rows": 11050
+    },
+    "cassandra.top_services_14d": {
+      "rows": 15599
+    }
+  },
+  "second": {
+    "bronze.customers_orgs": {
+      "rows": 80
+    },
+    "bronze.users": {
+      "rows": 800
+    },
+    "bronze.resources": {
+      "rows": 400
+    },
+    "bronze.billing_monthly": {
+      "rows": 240
+    },
+    "bronze.usage_events": {
+      "rows": 43200,
+      "rows_with_event_id": 43200,
+      "distinct_event_id": 43200
+    },
+    "silver.usage_events": {
+      "rows": 43200,
+      "rows_with_event_id": 43200,
+      "distinct_event_id": 43200,
+      "cost_usd": 147433.98
+    },
+    "quarantine.silver_usage_events": {
+      "rejected": 0,
+      "flagged": 211
+    },
+    "gold.org_daily_usage_by_service": {
+      "rows": 11050,
+      "distinct_keys": 11050,
+      "cost_usd": 147433.98,
+      "requests": 2294079.0
+    },
+    "cassandra.usage_by_org_service_day": {
+      "rows": 11050
+    },
+    "cassandra.top_services_14d": {
+      "rows": 15599
+    }
+  }
+}

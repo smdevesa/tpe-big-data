@@ -1,0 +1,30 @@
+import os
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+DATALAKE = Path(os.environ.get("DATALAKE_DIR") or ROOT / "datalake")
+LANDING = Path(os.environ.get("LANDING_DIR") or DATALAKE / "landing")
+BRONZE = DATALAKE / "bronze"
+SILVER = DATALAKE / "silver"
+GOLD = DATALAKE / "gold"
+QUARANTINE = DATALAKE / "quarantine"
+CHECKPOINTS = DATALAKE / "_checkpoints"
+DERIVED_ZONES = (BRONZE, SILVER, GOLD, QUARANTINE, CHECKPOINTS)
+
+EVIDENCE = Path(os.environ.get("EVIDENCE_DIR") or ROOT / "evidence" / "e2")
+RUN_LOG = EVIDENCE / "run.log"
+LOG_LEVEL = os.environ.get("LOG_LEVEL") or "INFO"
+
+SPARK_MASTER = os.environ.get("SPARK_MASTER") or "local[*]"
+SPARK_SHUFFLE_PARTITIONS = int(os.environ.get("SPARK_SHUFFLE_PARTITIONS") or 8)
+
+STREAM_WATERMARK = os.environ.get("STREAM_WATERMARK") or "61 days"
+STREAM_MAX_FILES_PER_TRIGGER = int(os.environ.get("STREAM_MAX_FILES_PER_TRIGGER") or 10)
+
+CASSANDRA_HOST = os.environ.get("CASSANDRA_HOST") or "127.0.0.1"
+CASSANDRA_KEYSPACE = os.environ.get("CASSANDRA_KEYSPACE") or "cloud_analytics"
+CQL_DIR = ROOT / "infra" / "cql"
+
+_example = (os.environ.get("EVIDENCE_EXAMPLE") or "org_cvs4f8cg,2025-08-17,networking").split(",")
+EVIDENCE_EXAMPLE = dict(zip(("org_id", "date", "service"), (part.strip() for part in _example)))
